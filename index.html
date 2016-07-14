@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="tangfeng的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="https://tangfeng1012.github.io/index.html">
 <meta property="og:site_name" content="tangfeng的博客">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tangfeng的博客">
@@ -76,7 +76,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -117,7 +117,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						
+						<a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
 					</div>
 				</section>
 				
@@ -313,9 +313,8 @@
 <p>而API上对 HttpURLConnection 的介绍是：<br>每个HttpURLConnection 实例都可用于生成单个请求，但是其他实例可以透明地共享连接到 HTTP 服务器的基础网络。请求后在HttpURLConnection 的 InputStream 或 OutputStream 上调用 close() 方法可以释放与此实例关联的网络资源，但对共享的持久连接没有任何影响。如果在调用 disconnect() 时持久连接空闲，则可能关闭基础套接字。</p>
 <p>因此，由上可知，HttpURLConnection是java用于特定的HTTP通信的类。通过使用HttpURLConnection对象的方法设置相关参数，我们就能进行http通信。</p>
 <ol>
-<li><p>public void setDoInput(boolean doinput) 方法</p>
-<pre><code>如果打算使用 URL 连接进行输入，则将 DoInput 标志设置为 true；如果不打算使用，则设置为 false。默认值为true。
-</code></pre></li>
+<li><p>public void setDoInput(boolean doinput) 方法<br>如果打算使用 URL 连接进行输入，则将 DoInput 标志设置为 true；如果不打算使用，则设置为 false。默认值为true。</p>
+</li>
 <li><p>public void setDoOutput(boolean dooutput)<br>将此 URLConnection 的 doOutput 字段的值设置为指定的值。</p>
 </li>
 <li><p>public void setUseCaches(boolean usecaches)<br>将此 URLConnection 的 useCaches 字段的值设置为指定的值。<br>有些协议用于文档缓存。有时候能够进行“直通”并忽略缓存尤其重要，例如浏览器中的“重新加载”按钮。如果连接中的UseCaches 标志为 true，则允许连接使用任何可用的缓存。如果为 false，则忽略缓存。默认值来自 DefaultUseCaches，它默认为 true。</p>
@@ -330,7 +329,15 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件上传/">文件上传</a></li></ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/技术波文/">技术波文</a>
+	</div>
+
 
       
       <div class="clearfix"></div>
