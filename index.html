@@ -76,7 +76,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -242,87 +242,6 @@
 </ul>
 <h3 id="1-2-http报文格式"><a href="#1-2-http报文格式" class="headerlink" title="1.2 http报文格式"></a>1.2 http报文格式</h3><h4 id="http请求报文"><a href="#http请求报文" class="headerlink" title="http请求报文"></a>http请求报文</h4><p>一个http请求报文格式是由四个部分组成，分别是请求行，请求头部，空行和请求数据。其中需要注意的是空行，是必须的。</p>
 <h5 id="1）请求行"><a href="#1）请求行" class="headerlink" title="1）请求行"></a>1）请求行</h5><p>请求行是由请求方法、URL字段和HTTP协议版本这个3个部分组成。<br>请求方法有8个——<br>GET、POST、HEAD、PUT、DELETE、OPTIONS、TRACE、CONNECT。<br>一般常用的就是GET 和 POST 方法。<br>简单说下两者区别：</p>
-<ul>
-<li><p>GET<br>绝大部分的HTTP请求报文使用的是GET方法，如get这个单词本身含义一样，GET方法是用于获取查询资源信息，当浏览器请求一个对象时，使用GET方法。</p>
-</li>
-<li><p>POST<br>HTTP客户机常常在用户提交表单时使用POST方法，需要用到实体主体。POST表示可能修改变服务器上的资源的请求。</p>
-</li>
-</ul>
-<p>get请求可以获取静态页面，也可以把参数放在URL字串后面，传递给servlet，<br>post与get的不同之处在于post的参数不是放在URL字串里面，而是放在http请求的正文内。 </p>
-<p>URL字段就是”<a href="http://192.168.1.110:8080/abc&quot;这种浏览器访问地址。" target="_blank" rel="external">http://192.168.1.110:8080/abc&quot;这种浏览器访问地址。</a><br>HTTP协议版本就是1.0 或者1.1 这两种其中之一。</p>
-<h4 id="2）请求头部"><a href="#2）请求头部" class="headerlink" title="2）请求头部"></a>2）请求头部</h4><p><img src="header.jpg" alt="head"></p>
-<h2 id="2、客户端-上传代码"><a href="#2、客户端-上传代码" class="headerlink" title="2、客户端 上传代码"></a>2、客户端 上传代码</h2><p>httpUrlConnection是 URLConnection的子类，我们先来看看 URLConnection这个抽象类的相关介绍。<br>&nbsp;&nbsp;&nbsp;&nbsp;注：以下内容来自 JDK API 1.6：<br>抽象类URLConnection 是所有类的超类，它代表应用程序和 URL 之间的通信链接。此类的实例可用于读取和写入此 URL 引用的资源。通常，创建一个到 URL 的连接需要几个步骤：</p>
-<ul>
-<li><p>openConnection()<br>对影响到远程资源连接的参数进行操作。</p>
-</li>
-<li><p>connect()<br>与资源交互；查询头字段和内容。</p>
-</li>
-</ul>
-<p>时间</p>
-<ol>
-<li><p>通过在 URL 上调用 openConnection 方法创建连接对象。</p>
-</li>
-<li><p>处理设置参数和一般请求属性。</p>
-</li>
-<li><p>使用 connect 方法建立到远程对象的实际连接。</p>
-</li>
-<li><p>远程对象变为可用。远程对象的头字段和内容变为可访问。</p>
-</li>
-</ol>
-<p>使用以下方法修改设置参数：</p>
-<ol>
-<li><p>setAllowUserInteraction</p>
-</li>
-<li><p>setDoInput</p>
-</li>
-<li><p>setDoOutput</p>
-</li>
-<li><p>setIfModifiedSince</p>
-</li>
-<li><p>setUseCaches</p>
-</li>
-</ol>
-<p>使用以下方法修改一般请求属性：setRequestProperty<br>使用setDefaultAllowUserInteraction 和 setDefaultUseCaches 可设置 AllowUserInteraction 和 UseCaches参数的默认值。<br>上面每个set 方法都有一个用于获取参数值或一般请求属性值的对应 get 方法。适用的具体参数和一般请求属性取决于协议。</p>
-<p>在建立到远程对象的连接后，以下方法用于访问头字段和内容：</p>
-<ol>
-<li><p>getContent</p>
-</li>
-<li><p>getHeaderField</p>
-</li>
-<li><p>getInputStream</p>
-</li>
-<li><p>getOutputStream</p>
-</li>
-</ol>
-<p>某些头字段需要经常访问。以下方法：</p>
-<ol>
-<li><p>getContentEncoding</p>
-</li>
-<li><p>getContentLength</p>
-</li>
-<li><p>getContentType</p>
-</li>
-<li><p>getDate</p>
-</li>
-<li><p>getExpiration</p>
-</li>
-<li><p>getLastModifed</p>
-</li>
-</ol>
-<p>提供对这些字段的便捷访问。getContent方法使用 getContentType 方法以确定远程对象类型；子类重写 getContentType 方法很容易。<br>一般情况下，所有的预连接参数和一般请求属性都可忽略：预连接参数和一般请求属性默认为敏感值。对于此接口的大多数客户端而言，只有两个需要的方法：getInputStream和getContent，它们通过便捷方法镜像到 URL 类中。</p>
-<p>而API上对 HttpURLConnection 的介绍是：<br>每个HttpURLConnection 实例都可用于生成单个请求，但是其他实例可以透明地共享连接到 HTTP 服务器的基础网络。请求后在HttpURLConnection 的 InputStream 或 OutputStream 上调用 close() 方法可以释放与此实例关联的网络资源，但对共享的持久连接没有任何影响。如果在调用 disconnect() 时持久连接空闲，则可能关闭基础套接字。</p>
-<p>因此，由上可知，HttpURLConnection是java用于特定的HTTP通信的类。通过使用HttpURLConnection对象的方法设置相关参数，我们就能进行http通信。</p>
-<ol>
-<li><p>public void setDoInput(boolean doinput) 方法<br>如果打算使用 URL 连接进行输入，则将 DoInput 标志设置为 true；如果不打算使用，则设置为 false。默认值为true。</p>
-</li>
-<li><p>public void setDoOutput(boolean dooutput)<br>将此 URLConnection 的 doOutput 字段的值设置为指定的值。</p>
-</li>
-<li><p>public void setUseCaches(boolean usecaches)<br>将此 URLConnection 的 useCaches 字段的值设置为指定的值。<br>有些协议用于文档缓存。有时候能够进行“直通”并忽略缓存尤其重要，例如浏览器中的“重新加载”按钮。如果连接中的UseCaches 标志为 true，则允许连接使用任何可用的缓存。如果为 false，则忽略缓存。默认值来自 DefaultUseCaches，它默认为 true。</p>
-</li>
-</ol>
-<p>具体代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">/* 上传文件至Server的方法 */  </div><div class="line">    private void uploadFile() &#123;  </div><div class="line">        String end = &quot;\r\n&quot;;  </div><div class="line">        String twoHyphens = &quot;--&quot;;  </div><div class="line">        String boundary = &quot;*****&quot;;  </div><div class="line">        String newName = &quot;image.jpg&quot;;  </div><div class="line">        String uploadFile = &quot;storage/sdcard1/bagPictures/102.jpg&quot;;  </div><div class="line">        ;  </div><div class="line">        String actionUrl = &quot;http://192.168.1.123:8080/upload/servlet/UploadServlet&quot;;  </div><div class="line">        try &#123;  </div><div class="line">            URL url = new URL(actionUrl);  </div><div class="line">            HttpURLConnection con = (HttpURLConnection) url.openConnection();  </div><div class="line">            /* 允许Input、Output，不使用Cache */  </div><div class="line">            con.setDoInput(true);  </div><div class="line">            con.setDoOutput(true);  </div><div class="line">            con.setUseCaches(false);  </div><div class="line">            /* 设置传送的method=POST */  </div><div class="line">            con.setRequestMethod(&quot;POST&quot;);  </div><div class="line">            /* setRequestProperty */  </div><div class="line">            con.setRequestProperty(&quot;Connection&quot;, &quot;Keep-Alive&quot;);  </div><div class="line">            con.setRequestProperty(&quot;Charset&quot;, &quot;UTF-8&quot;);  </div><div class="line">            con.setRequestProperty(&quot;Content-Type&quot;,  </div><div class="line">                    &quot;multipart/form-data;boundary=&quot; + boundary);  </div><div class="line">            /* 设置DataOutputStream */  </div><div class="line">            DataOutputStream ds = new DataOutputStream(con.getOutputStream());  </div><div class="line">            ds.writeBytes(twoHyphens + boundary + end);  </div><div class="line">            ds.writeBytes(&quot;Content-Disposition: form-data; &quot;  </div><div class="line">                    + &quot;name=\&quot;file1\&quot;;filename=\&quot;&quot; + newName + &quot;\&quot;&quot; + end);  </div><div class="line">            ds.writeBytes(end);  </div><div class="line">            /* 取得文件的FileInputStream */  </div><div class="line">            FileInputStream fStream = new FileInputStream(uploadFile);  </div><div class="line">            /* 设置每次写入1024bytes */  </div><div class="line">            int bufferSize = 1024;  </div><div class="line">            byte[] buffer = new byte[bufferSize];  </div><div class="line">            int length = -1;  </div><div class="line">            /* 从文件读取数据至缓冲区 */  </div><div class="line">            while ((length = fStream.read(buffer)) != -1) &#123;  </div><div class="line">                /* 将资料写入DataOutputStream中 */  </div><div class="line">                ds.write(buffer, 0, length);  </div><div class="line">            &#125;  </div><div class="line">            ds.writeBytes(end);  </div><div class="line">            ds.writeBytes(twoHyphens + boundary + twoHyphens + end);  </div><div class="line">            /* close streams */  </div><div class="line">            fStream.close();  </div><div class="line">            ds.flush();  </div><div class="line">            /* 取得Response内容 */  </div><div class="line">            InputStream is = con.getInputStream();  </div><div class="line">            int ch;  </div><div class="line">            StringBuffer b = new StringBuffer();  </div><div class="line">            while ((ch = is.read()) != -1) &#123;  </div><div class="line">                b.append((char) ch);  </div><div class="line">            &#125;  </div><div class="line">            /* 将Response显示于Dialog */  </div><div class="line">            showDialog(&quot;上传成功&quot; + b.toString().trim());  </div><div class="line">            /* 关闭DataOutputStream */  </div><div class="line">            ds.close();  </div><div class="line">        &#125; catch (Exception e) &#123;  </div><div class="line">            showDialog(&quot;上传失败&quot; + e);  </div><div class="line">        &#125;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h2 id="3、服务器端的代码"><a href="#3、服务器端的代码" class="headerlink" title="3、服务器端的代码"></a>3、服务器端的代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line">public class UploadServlet extends HttpServlet &#123;  </div><div class="line">  </div><div class="line">    public void doGet(HttpServletRequest request, HttpServletResponse response)  </div><div class="line">            throws ServletException, IOException &#123;  </div><div class="line">        try &#123;  </div><div class="line">            System.out.println(&quot;IP:&quot; + request.getRemoteAddr());  </div><div class="line">            // 1、创建工厂类：DiskFileItemFactory  </div><div class="line">            DiskFileItemFactory facotry = new DiskFileItemFactory();  </div><div class="line">            String tempDir = getServletContext().getRealPath(&quot;/WEB-INF/temp&quot;);  </div><div class="line">            facotry.setRepository(new File(tempDir));//设置临时文件存放目录  </div><div class="line">            // 2、创建核心解析类：ServletFileUpload  </div><div class="line">            ServletFileUpload upload = new ServletFileUpload(facotry);  </div><div class="line">            upload.setHeaderEncoding(&quot;UTF-8&quot;);// 解决上传的文件名乱码  </div><div class="line">            upload.setFileSizeMax(1024 * 1024 * 1024);// 单个文件上传最大值是1M  </div><div class="line">            upload.setSizeMax(2048 * 1024 * 1024);//文件上传的总大小限制  </div><div class="line">  </div><div class="line">            // 3、判断用户的表单提交方式是不是multipart/form-data  </div><div class="line">            boolean bb = upload.isMultipartContent(request);  </div><div class="line">            if (!bb) &#123;  </div><div class="line">                return;  </div><div class="line">            &#125;  </div><div class="line">            // 4、是：解析request对象的正文内容List&lt;FileItem&gt;  </div><div class="line">            List&lt;FileItem&gt; items = upload.parseRequest(request);  </div><div class="line">            String storePath = getServletContext().getRealPath(  </div><div class="line">                    &quot;/WEB-INF/upload&quot;);// 上传的文件的存放目录  </div><div class="line">            for (FileItem item : items) &#123;  </div><div class="line">                if (item.isFormField()) &#123;  </div><div class="line">                    // 5、判断是否是普通表单：打印看看  </div><div class="line">                    String fieldName = item.getFieldName();// 请求参数名  </div><div class="line">                    String fieldValue = item.getString(&quot;UTF-8&quot;);// 请求参数值  </div><div class="line">                    System.out.println(fieldName + &quot;=&quot; + fieldValue);  </div><div class="line">                &#125; else &#123;  </div><div class="line">                    // 6、上传表单：得到输入流，处理上传：保存到服务器的某个目录中，保存时的文件名是啥？  </div><div class="line">                    String fileName = item.getName();// 得到上传文件的名称 C:\Documents  </div><div class="line">                                                        // and  </div><div class="line">                                                        // Settings\shc\桌面\a.txt  </div><div class="line">                                                        // a.txt  </div><div class="line">                    //解决用户没有选择文件上传的情况  </div><div class="line">                    if(fileName==null||fileName.trim().equals(&quot;&quot;))&#123;  </div><div class="line">                        continue;  </div><div class="line">                    &#125;  </div><div class="line">                    fileName = fileName  </div><div class="line">                            .substring(fileName.lastIndexOf(&quot;\\&quot;) + 1);  </div><div class="line">                    String newFileName = UUIDUtil.getUUID() + &quot;_&quot; + fileName;  </div><div class="line">                    System.out.println(&quot;上传的文件名是：&quot; + fileName);  </div><div class="line">                    InputStream in = item.getInputStream();  </div><div class="line">                    String savePath = makeDir(storePath, fileName) + &quot;\\&quot;  </div><div class="line">                            + newFileName;  </div><div class="line">                    OutputStream out = new FileOutputStream(savePath);  </div><div class="line">                    byte b[] = new byte[1024];  </div><div class="line">                    int len = -1;  </div><div class="line">                    while ((len = in.read(b)) != -1) &#123;  </div><div class="line">                        out.write(b, 0, len);  </div><div class="line">                    &#125;  </div><div class="line">                    in.close();  </div><div class="line">                    out.close();  </div><div class="line">                    item.delete();//删除临时文件  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">        &#125;catch(FileUploadBase.FileSizeLimitExceededException e)&#123;  </div><div class="line">            request.setAttribute(&quot;message&quot;, &quot;单个文件大小不能超出5M&quot;);  </div><div class="line">            request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request,  </div><div class="line">                    response);  </div><div class="line">        &#125;catch(FileUploadBase.SizeLimitExceededException e)&#123;  </div><div class="line">            request.setAttribute(&quot;message&quot;, &quot;总文件大小不能超出7M&quot;);  </div><div class="line">            request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request,  </div><div class="line">                    response);  </div><div class="line">    &#125;catch (Exception e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">            request.setAttribute(&quot;message&quot;, &quot;上传失败&quot;);  </div><div class="line">            request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request,  </div><div class="line">                    response);  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    // WEB-INF/upload/1/3 打散存储目录  </div><div class="line">    private String makeDir(String storePath, String fileName) &#123;  </div><div class="line">        int hashCode = fileName.hashCode();// 得到文件名的hashcode码  </div><div class="line">        int dir1 = hashCode &amp; 0xf;// 取hashCode的低4位 0~15  </div><div class="line">        int dir2 = (hashCode &amp; 0xf0) &gt;&gt; 4;// 取hashCode的高4位 0~15  </div><div class="line">        String path = storePath + &quot;\\&quot; + dir1 + &quot;\\&quot; + dir2;  </div><div class="line">        File file = new File(path);  </div><div class="line">        if (!file.exists())  </div><div class="line">            file.mkdirs();  </div><div class="line">        System.out.println(&quot;存储路径是&quot;+path);  </div><div class="line">        return path;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void doPost(HttpServletRequest request, HttpServletResponse response)  </div><div class="line">            throws ServletException, IOException &#123;  </div><div class="line">        doGet(request, response);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -339,6 +258,10 @@
 	</div>
 
 
+      
+        <p class="article-more-link">
+          <a  href="/2016/07/14/用httpUrlConnection实现文件上传/#more">more >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
