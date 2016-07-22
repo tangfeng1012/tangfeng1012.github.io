@@ -76,7 +76,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -117,7 +117,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
+						<a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
 					</div>
 				</section>
 				
@@ -206,6 +206,73 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-java内存溢出及其解决方法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/22/java内存溢出及其解决方法/" class="article-date">
+  	<time datetime="2016-07-22T09:46:31.000Z" itemprop="datePublished">2016-07-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/22/java内存溢出及其解决方法/">java内存溢出及其解决方法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很多时候，在开发阶段Tomcat重复的重启过程中会遇到java.lang.OutOfMemoryError : PermGen space 错误。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">java<span class="selector-class">.lang</span><span class="selector-class">.OutOfMemoryError</span>: PermGen space</div><div class="line">        at java<span class="selector-class">.lang</span><span class="selector-class">.ClassLoader</span><span class="selector-class">.defineClass1</span>(Native Method)</div><div class="line">        at java<span class="selector-class">.lang</span><span class="selector-class">.ClassLoader</span><span class="selector-class">.defineClass</span>(ClassLoader<span class="selector-class">.java</span>:<span class="number">620</span>)</div><div class="line">        at java<span class="selector-class">.security</span><span class="selector-class">.SecureClassLoader</span><span class="selector-class">.defineClass</span>(SecureClassLoader<span class="selector-class">.java</span>:<span class="number">124</span>)</div></pre></td></tr></table></figure>
+<p>PermGen space的全称是Permanent Generation space,是指内存的永久保存区域,这块内存主要是被JVM存放Class和Meta信息的,Class在被Loader时就会被放到PermGen space中, 它和存放类实例(Instance)的Heap区域不同,GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理，所以如果你的应用中有很多CLASS的话,就很可能出现PermGen space错误, 这种错误常见在web服务器对JSP进行pre compile的时候。如果你的WEB APP下都用了大量的第三方jar, 其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。</p>
+<p>怎么解决这种问题呢?</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TOMCAT/">TOMCAT</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/技术波文/">技术波文</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/07/22/java内存溢出及其解决方法/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-用httpUrlConnection实现文件上传" class="article article-type-post" itemscope itemprop="blogPost">
   
