@@ -76,7 +76,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -117,7 +117,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
+						<a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
 					</div>
 				</section>
 				
@@ -206,6 +206,73 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-java内存溢出(java.lang.OutOfMemoryError)及其解决方法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/22/java内存溢出(java.lang.OutOfMemoryError)及其解决方法/" class="article-date">
+  	<time datetime="2016-07-22T09:35:09.000Z" itemprop="datePublished">2016-07-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/22/java内存溢出(java.lang.OutOfMemoryError)及其解决方法/">��httpUrlConnectionʵ���ļ��ϴ�</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>�ܶ�ʱ�����ڿ����׶�Tomcat�ظ������������л�����java.lang.OutOfMemoryError : PermGen space ������</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">java<span class="selector-class">.lang</span><span class="selector-class">.OutOfMemoryError</span>: PermGen space</div><div class="line">        at java<span class="selector-class">.lang</span><span class="selector-class">.ClassLoader</span><span class="selector-class">.defineClass1</span>(Native Method)</div><div class="line">        at java<span class="selector-class">.lang</span><span class="selector-class">.ClassLoader</span><span class="selector-class">.defineClass</span>(ClassLoader<span class="selector-class">.java</span>:<span class="number">620</span>)</div><div class="line">        at java<span class="selector-class">.security</span><span class="selector-class">.SecureClassLoader</span><span class="selector-class">.defineClass</span>(SecureClassLoader<span class="selector-class">.java</span>:<span class="number">124</span>)</div></pre></td></tr></table></figure>
+<p>PermGen space��ȫ����Permanent Generation space,��ָ�ڴ������ñ�������,�����ڴ���Ҫ�Ǳ�JVM����Class��Meta��Ϣ��,Class�ڱ�Loaderʱ�ͻᱻ�ŵ�PermGen space��, ���ʹ�����ʵ��(Instance)��Heap������ͬ,GC(Garbage Collection)�����������������ڶ�PermGen space����������������������Ӧ�����кܶ�CLASS�Ļ�,�ͺܿ��ܳ���PermGen space����, ���ִ��󳣼���web��������JSP����pre compile��ʱ������������WEB APP�¶����˴����ĵ�����jar, ����С������jvmĬ�ϵĴ�С(4M)��ô�ͻ������˴�����Ϣ�ˡ�</p>
+<p>��ô��������������?</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TOMCAT/">TOMCAT</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/��������/">��������</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/07/22/java内存溢出(java.lang.OutOfMemoryError)及其解决方法/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-用httpUrlConnection实现文件上传" class="article article-type-post" itemscope itemprop="blogPost">
   
