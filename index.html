@@ -76,7 +76,7 @@
 						<li>Links</li>
 						
 						
-						<li>About</li>
+						<li>Über</li>
 						
 					</ul>
 				</div>
@@ -117,7 +117,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
+						<a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/apache-Commons/" style="font-size: 10px;">apache-Commons</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
 					</div>
 				</section>
 				
@@ -206,6 +206,74 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-apache Commons-beanutils的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/19/apache Commons-beanutils的使用/" class="article-date">
+  	<time datetime="2016-08-19T03:31:00.000Z" itemprop="datePublished">2016-08-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/19/apache Commons-beanutils的使用/">apache Commons-beanutils��ʹ��</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-����"><a href="#1-����" class="headerlink" title="1.����"></a>1.����</h2><p>��java���������У���������javabean�򽻵�����Entity��pojo��vo��dto�ȵȡ�javaӦ�÷ǳ������ֲ��ܹ��������ڸ���֮��bean�Ĵ�����ת���ǳ��ķ���������:</p>
+<figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="type">Student</span> stu = <span class="function"><span class="keyword">new</span> <span class="title">Student</span>();</div><div class="line"><span class="title">stu</span>.<span class="title">setName</span>(bean.getName());</div><div class="line"><span class="title">stu</span>.<span class="title">setClassName</span>(bean.getClassName());</div><div class="line"><span class="title">stu</span>.<span class="title">setPeople</span>(bean.getPeople());</div><div class="line"><span class="title">stu</span>.<span class="title">setScore</span>(bean.getScore());</span></div></pre></td></tr></table></figure>
+<p>���Ŵ��Ҷ���������ʹ�����ַ�ʽ��ֵ��ȡֵ�����������о��ǳ����ģ�һ��bean�����Ժܶ࣬���Ӵ��볤�Ȳ�˵�����ر�Ӱ���Ķ����������顣<br>Ϊ�ˣ�ҵ���кܶ࿪Դ��ʵ�֣�����:</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">apache</span> commons PropertiyUtils</div><div class="line"><span class="symbol">apache</span> commons <span class="keyword">BeanUrils</div><div class="line"></span><span class="symbol">Spring</span> <span class="keyword">BeanUtils</div><div class="line"></span><span class="symbol">Cglib</span> <span class="keyword">BeanCopier</div><div class="line"></span><span class="symbol">Dozer</span></div></pre></td></tr></table></figure>
+<p>��������̽����apache commons BeanUtils���÷�</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apache-Commons/">apache-Commons</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/��������/">��������</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/08/19/apache Commons-beanutils的使用/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-java内存溢出及其解决方法" class="article article-type-post" itemscope itemprop="blogPost">
   

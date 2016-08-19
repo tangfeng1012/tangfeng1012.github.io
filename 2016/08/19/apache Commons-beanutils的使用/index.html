@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>apache Commons-beanutils��ʹ�� | tangfeng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.������java���������У���������javabean�򽻵�����Entity��pojo��vo��dto�ȵȡ�javaӦ�÷ǳ������ֲ��ܹ��������ڸ���֮��bean�Ĵ�����ת���ǳ��ķ���������:
+12345Student stu = new Student();stu.setName(bean.getName());stu.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apache Commons-beanutils��ʹ��">
+<meta property="og:url" content="https://tangfeng1012.github.io/2016/08/19/apache Commons-beanutils的使用/index.html">
+<meta property="og:site_name" content="tangfeng的博客">
+<meta property="og:description" content="1.������java���������У���������javabean�򽻵�����Entity��pojo��vo��dto�ȵȡ�javaӦ�÷ǳ������ֲ��ܹ��������ڸ���֮��bean�Ĵ�����ת���ǳ��ķ���������:
+12345Student stu = new Student();stu.setName(bean.getName());stu.">
+<meta property="og:image" content="http://img.blog.csdn.net/20160819100428832">
+<meta property="og:image" content="http://img.blog.csdn.net/20160819102537696">
+<meta property="og:image" content="http://img.blog.csdn.net/20160819102555868">
+<meta property="og:image" content="http://img.blog.csdn.net/20160819102608904">
+<meta property="og:image" content="http://img.blog.csdn.net/20160819102625295">
+<meta property="og:image" content="http://img.blog.csdn.net/20160819104733913">
+<meta property="og:updated_time" content="2016-08-19T03:51:33.590Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apache Commons-beanutils��ʹ��">
+<meta name="twitter:description" content="1.������java���������У���������javabean�򽻵�����Entity��pojo��vo��dto�ȵȡ�javaӦ�÷ǳ������ֲ��ܹ��������ڸ���֮��bean�Ĵ�����ת���ǳ��ķ���������:
+12345Student stu = new Student();stu.setName(bean.getName());stu.">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160819100428832">
+  
+    <link rel="alternative" href="/atom.xml" title="tangfeng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140" class="js-avatar" src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">tangfeng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">爱生活 爱分享</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+							<li><a href="/photos">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/tangfeng1012" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="#" title="mail">mail</a>
+					        
+								<a class="rss" target="_blank" href="#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/feng-tang-91" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/apache-Commons/" style="font-size: 10px;">apache-Commons</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">tangfeng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">tangfeng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">爱生活 爱分享</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+					<li><a href="/photos">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/tangfeng1012" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="#" title="mail">mail</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/feng-tang-91" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-apache Commons-beanutils的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/19/apache Commons-beanutils的使用/" class="article-date">
+  	<time datetime="2016-08-19T03:31:00.000Z" itemprop="datePublished">2016-08-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      apache Commons-beanutils��ʹ��
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apache-Commons/">apache-Commons</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/��������/">��������</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-����"><a href="#1-����" class="headerlink" title="1.����"></a>1.����</h2><p>��java���������У���������javabean�򽻵�����Entity��pojo��vo��dto�ȵȡ�javaӦ�÷ǳ������ֲ��ܹ��������ڸ���֮��bean�Ĵ�����ת���ǳ��ķ���������:</p>
+<figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="type">Student</span> stu = <span class="function"><span class="keyword">new</span> <span class="title">Student</span>();</span></div><div class="line"><span class="title">stu</span>.<span class="title">setName</span>(bean.getName());</div><div class="line"><span class="title">stu</span>.<span class="title">setClassName</span>(bean.getClassName());</div><div class="line"><span class="title">stu</span>.<span class="title">setPeople</span>(bean.getPeople());</div><div class="line"><span class="title">stu</span>.<span class="title">setScore</span>(bean.getScore());</div></pre></td></tr></table></figure>
+<p>���Ŵ��Ҷ���������ʹ�����ַ�ʽ��ֵ��ȡֵ�����������о��ǳ����ģ�һ��bean�����Ժܶ࣬���Ӵ��볤�Ȳ�˵�����ر�Ӱ���Ķ����������顣<br>Ϊ�ˣ�ҵ���кܶ࿪Դ��ʵ�֣�����:</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">apache</span> commons PropertiyUtils</div><div class="line"><span class="symbol">apache</span> commons <span class="keyword">BeanUrils</span></div><div class="line"><span class="symbol">Spring</span> <span class="keyword">BeanUtils</span></div><div class="line"><span class="symbol">Cglib</span> <span class="keyword">BeanCopier</span></div><div class="line"><span class="symbol">Dozer</span></div></pre></td></tr></table></figure>
+<p>��������̽����apache commons BeanUtils���÷�</p>
+<a id="more"></a>
+<h2 id="2-apache-commons-BeanUtils����"><a href="#2-apache-commons-BeanUtils����" class="headerlink" title="2.apache commons BeanUtils����"></a>2.apache commons BeanUtils����</h2><p>����BeanUtils����ʵ���Ҷ����õ��������Ǻܶ࿪Դ��Ŀ�Ļ�ʯ������Struts��Spring�����ܿ���BeanUtils��Ӱ�ӡ��ù�springMVC����Ӧ�ö�֪��SpringNVC��������һ��BaseCommandController�����࣬�����������þ��ǽ�ǰ�˴������Ĳ����󶨵��ض��Ķ�����ȥ��������Ҫ����request.getParamter(“name”);bean.setName(name),�Ӷ������˲��ٹ�����<br>��Struts��Ҳ�������Ĺ��ܣ��õľ���apache BeanUtils���������ࡣ<br>BeanUtils��Ҫ�Ƿ�װ��java����(reflection)����ʡ��introspection��API������javabean���в�����<br>��������BeanUtils�ļ������÷���:</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.</span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">Object</span> cloneBean(<span class="keyword">Object</span> bean)  <span class="comment">//��¡����(�˴�δʵ������clone�����Ӷ���clone����Ȼֻ������)</span></div><div class="line"><span class="number">2.</span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> copyProperties(<span class="keyword">Object</span> dest, <span class="keyword">Object</span> orig)  <span class="comment">//��ֵ</span></div><div class="line"><span class="number">3.</span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> setProperty(<span class="keyword">Object</span> bean, <span class="keyword">String</span> name, <span class="keyword">Object</span> value)   <span class="comment">//����bean��ĳ�����Ե�ֵ</span></div><div class="line"><span class="number">4.</span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> getProperty(<span class="keyword">Object</span> bean, <span class="keyword">String</span> name)   <span class="comment">//�õ�bean�ж�Ӧ����ֵ</span></div><div class="line"><span class="number">5.</span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> populate(<span class="keyword">Object</span> bean, Map properties)    <span class="comment">//MapתΪbean</span></div></pre></td></tr></table></figure>
+<h2 id="3-BeanUtilsʹ��ʾ��"><a href="#3-BeanUtilsʹ��ʾ��" class="headerlink" title="3.BeanUtilsʹ��ʾ��"></a>3.BeanUtilsʹ��ʾ��</h2><p>3.1�ȶ�����bean<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> apache.commons.beanutil;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.ByteArrayInputStream;</div><div class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.ObjectInputStream;</div><div class="line"><span class="keyword">import</span> java.io.ObjectOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.Serializable;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> score;</div><div class="line">	<span class="keyword">private</span> String className;</div><div class="line">	<span class="keyword">private</span> String name;</div><div class="line">	<span class="keyword">private</span> People people;</div><div class="line">	<span class="keyword">private</span> Date createDate;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">()</span> </span>&#123;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(<span class="keyword">int</span> score, String className, String name)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></div><div class="line">		<span class="keyword">this</span>.score = score;</div><div class="line">		<span class="keyword">this</span>.className = className;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getScore</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> score;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setScore</span><span class="params">(<span class="keyword">int</span> score)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.score = score;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getClassName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> className;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setClassName</span><span class="params">(String className)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.className = className;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> name;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> People <span class="title">getPeople</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> people;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPeople</span><span class="params">(People people)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.people = people;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> Date <span class="title">getCreateDate</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> createDate;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCreateDate</span><span class="params">(Date createDate)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.createDate = createDate;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"Student [score="</span> + score + <span class="string">", className="</span> + className + <span class="string">", name="</span> + name + <span class="string">", people="</span> + people</div><div class="line">				+ <span class="string">", createDate="</span> + createDate + <span class="string">"]"</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * ʹ�����л��ķ�ʽʵ������clone</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 * <span class="doctag">@throws</span> IOException</div><div class="line">	 * <span class="doctag">@throws</span> ClassNotFoundException</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> Student <span class="title">deepClone</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span>&#123;</div><div class="line">		ByteArrayOutputStream bao = <span class="keyword">new</span> ByteArrayOutputStream();</div><div class="line">		ObjectOutputStream objectOutputStream = <span class="keyword">new</span> ObjectOutputStream(bao);</div><div class="line">		objectOutputStream.writeObject(<span class="keyword">this</span>);</div><div class="line">		</div><div class="line">		ByteArrayInputStream baInput = <span class="keyword">new</span> ByteArrayInputStream(bao.toByteArray());</div><div class="line">		ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(baInput);</div><div class="line">		Student stu = (Student)objectInputStream.readObject();</div><div class="line"></div><div class="line">		<span class="keyword">return</span> stu;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>ע��Student�������к���People�࣬������֤beanutils��cloneBean()�����Ƿ�ʵ�������ȿ�¡��<br>People�ඨ��:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> apache.commons.beanutil;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.Serializable;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">People</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;</div><div class="line">	<span class="keyword">private</span> String name;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">People</span><span class="params">()</span> </span>&#123;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">People</span><span class="params">(String name,<span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">		<span class="keyword">this</span>.age = age;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> name;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> age;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.age = age;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"People [name="</span> + name + <span class="string">", age="</span> + age + <span class="string">"]"</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3.2 ����������cloneBean����:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Test</span></div><div class="line">public void testBeanClone() throws Exception&#123;</div><div class="line">	Student student = new Student(80, "ll","tf");</div><div class="line">	People people = new People("tt", 20);</div><div class="line">	student<span class="selector-class">.setPeople</span>(people);</div><div class="line"><span class="comment">//	student.setCreateDate(new Date());</span></div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"cloneǰ:"</span> + student);		</div><div class="line">	</div><div class="line">	Student bean = (Student)BeanUtils<span class="selector-class">.cloneBean</span>(student);</div><div class="line">	bean<span class="selector-class">.getPeople</span>()<span class="selector-class">.setName</span>(<span class="string">"daxiong"</span>);</div><div class="line">	People people2 = bean<span class="selector-class">.getPeople</span>();</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(people2 == people);</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"clone��:"</span> + bean);</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(student);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>��������Ϊ:</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cloneǰ:Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=tt,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">clone��:Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=tt,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">cloneǰ��Ƕ�������Ƿ���ԭ������:<span class="literal">true</span></div><div class="line">�ı����Ժ�ԭ��beanStudent [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=daxiong,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">�ı����Ժ���¡bean:Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=daxiong,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div></pre></td></tr></table></figure>
+<p>���ǿ��Կ�������������ͨ��javaeban���ܹ�ʵ��clone�����Ƕ���bean�л�Ƕ�ױ���beanʱ��clone��ֻ��ԭ��bean�����á�</p>
+<p>3.3 ���ǲ������л���ʽʵ�����ȿ�¡����һ���Աȣ�</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Test</span></div><div class="line">public void testDeepClone() throws Exception&#123;</div><div class="line">	Student student = new Student(80, "ll","tf");</div><div class="line">	People people = new People("tt", 20);</div><div class="line">	student<span class="selector-class">.setPeople</span>(people);</div><div class="line"><span class="comment">//	student.setCreateDate(new Date());</span></div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"cloneǰ:"</span> + student);	</div><div class="line">	</div><div class="line">	Student deepClone = student<span class="selector-class">.deepClone</span>();</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"clone��:"</span> + deepClone);</div><div class="line">	People people2 = deepClone<span class="selector-class">.getPeople</span>();</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"cloneǰ��Ƕ�������Ƿ���ԭ������:"</span> + (people == people2));</div><div class="line">	deepClone<span class="selector-class">.getPeople</span>()<span class="selector-class">.setName</span>(<span class="string">"xxxx"</span>);</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"�ı����Ժ�ԭ��bean:"</span> + student);</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(<span class="string">"�ı����Ժ���¡bean"</span> + deepClone);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>����������</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cloneǰ:Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=tt,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">clone��:Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=tt,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">cloneǰ��Ƕ�������Ƿ���ԭ������:<span class="literal">false</span></div><div class="line">�ı����Ժ�ԭ��bean:Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=tt,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">�ı����Ժ���¡beanStudent [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=xxxx,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div></pre></td></tr></table></figure>
+<p>�ܽ᣺�����Ƚϣ����Կ���cloneǰ���Ƿ�Ϊԭ�����ò�ͬ������Beanutils.cloneBean������ֻ�Ǽ򵥵ĸ���Ƕ���������á������������Կ�¡��bean�޸�name���ԣ�ԭ�е�beanҲ�����仯��Ҫʵ������clone��Ҫô����ÿ��bean��ʵ��Cloneable�ӿڣ����ṩһ�������ķ�������������Object��clone()������Ҫô�򵥵Ĳ������л��ķ�ʽʵ�֡�</p>
+<p>3.4 BeanUtils��copyProperties��Object dest, Object orig������</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Test</span></div><div class="line">public void testCopyProperties() throws Exception&#123;</div><div class="line">	Student student = new Student(80, "ll","tf");</div><div class="line">	People people = new People("tt", 20);</div><div class="line">	student<span class="selector-class">.setPeople</span>(people);</div><div class="line"><span class="comment">//		student.setCreateDate(new Date());</span></div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(student);	</div><div class="line">	</div><div class="line">	Student stu = new Student();</div><div class="line">	BeanUtils<span class="selector-class">.copyProperties</span>(stu, student);</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(stu);</div><div class="line">	stu<span class="selector-class">.getPeople</span>()<span class="selector-class">.setName</span>(<span class="string">"ttff"</span>);</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(student);</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(stu);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>����������<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=tt,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=tt,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=ttff,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div><div class="line">Student [<span class="attr">score=80,</span> <span class="attr">className=ll,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=ttff,</span> <span class="attr">age=20],</span> <span class="attr">createDate=null]</span></div></pre></td></tr></table></figure></p>
+<p>���Կ���copyProperties����Ҳ�Ǽ򵥵ĸ���Ƕ��bean�����á�����</p>
+<p>3.5 BeanUtils��setProperty(Object bean, String name, Object value)��getProperty(Object bean, String name)����ʹ��</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Test</span></div><div class="line">public void testSetProperty() throws Exception&#123;</div><div class="line">	Student stu = new Student();</div><div class="line">	BeanUtils<span class="selector-class">.setProperty</span>(stu, <span class="string">"name"</span>, <span class="string">"tf"</span>);</div><div class="line">	BeanUtils<span class="selector-class">.setProperty</span>(stu, <span class="string">"people"</span>, new People(<span class="string">"ttttfff"</span>, <span class="number">23</span>));</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(stu);</div><div class="line">	</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(BeanUtils.getProperty(stu, <span class="string">"name"</span>));</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(BeanUtils.getProperty(stu, <span class="string">"people"</span>));</div><div class="line">	System<span class="selector-class">.out</span><span class="selector-class">.println</span>(BeanUtils.getProperty(stu, <span class="string">"people.name"</span>) +   BeanUtils.getProperty(stu, <span class="string">"people.age"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>����������</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Student [<span class="attr">score=0,</span> <span class="attr">className=null,</span> <span class="attr">name=tf,</span> <span class="attr">people=People</span> [<span class="attr">name=ttttfff,</span> <span class="attr">age=23],</span> <span class="attr">createDate=null]</span></div><div class="line">tf</div><div class="line">People [<span class="attr">name=ttttfff,</span> <span class="attr">age=23]</span></div><div class="line">ttttfff23</div></pre></td></tr></table></figure>
+<p>setProperty��������������ֱ�ӵ���setter/getter������������getProperty�����п��Բ���bean.property�ķ�ʽȥȡ��Ƕ�����е����ԣ�����һ����������</p>
+<p>3.6 BeanUtils��populate��Object bean, Map properties������ʹ��<br>��MapתΪbean<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> testPopulate() throws Exception&#123;</div><div class="line">	Student student2 = <span class="keyword">new</span> Student();</div><div class="line">	Map&lt;<span class="keyword">String</span>, Object&gt; <span class="built_in">map</span> = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">	<span class="built_in">map</span>.<span class="built_in">put</span>(<span class="string">"name"</span>, <span class="string">"ttt"</span>);</div><div class="line">	<span class="built_in">map</span>.<span class="built_in">put</span>(<span class="string">"score"</span>, <span class="number">80</span>);</div><div class="line">	<span class="built_in">map</span>.<span class="built_in">put</span>(<span class="string">"people"</span>, <span class="keyword">new</span> People(<span class="string">"peopleName"</span>, <span class="number">30</span>));</div><div class="line">	System.out.<span class="built_in">println</span>(<span class="string">"map:"</span> + <span class="built_in">map</span>);</div><div class="line">	BeanUtils.populate(student2, <span class="built_in">map</span>);</div><div class="line">	System.out.<span class="built_in">println</span>(student2);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>������</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">map</span>:&#123;<span class="attr">name=ttt,</span> <span class="attr">score=80,</span> <span class="attr">people=People</span> [<span class="attr">name=peopleName,</span> <span class="attr">age=30]&#125;</span></div><div class="line">Student [<span class="attr">score=80,</span> <span class="attr">className=null,</span> <span class="attr">name=ttt,</span> <span class="attr">people=People</span> [<span class="attr">name=peopleName,</span> <span class="attr">age=30],</span> <span class="attr">createDate=null]</span></div></pre></td></tr></table></figure>
+<p>ע�⣬��ʹ��populate����ʱ������bean�г�����java.util.Date���ͣ���map��put����String���ͣ���ʱ����Mapתbean����������ô�������������أ��𰸾����Լ�ȥʵ��һ��org.apache.commons.beanutils.Converter�ӿڣ��˽ӿں�BeanUtilsλ��ͬһ�������¡�ע�⣬BeanUtils��ʵ֧������ת�����ܣ���������bean����ͬ�����Ե���ͬ���ͣ���֧�ֵ��������ͷ�Χ�ڽ���ת����֧�ֵ��������Ͱ���:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.BigDecimal</span></div><div class="line"><span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.BigInteger</span></div><div class="line"><span class="selector-tag">boolean</span> <span class="selector-tag">and</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Boolean</span></div><div class="line"><span class="selector-tag">byte</span> <span class="selector-tag">and</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Byte</span></div><div class="line"><span class="selector-tag">char</span> <span class="selector-tag">and</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Character</span></div><div class="line"><span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Class</span></div><div class="line"><span class="selector-tag">double</span> <span class="selector-tag">and</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Double</span></div><div class="line"><span class="selector-tag">float</span> <span class="selector-tag">and</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Float</span></div><div class="line"><span class="selector-tag">int</span> <span class="selector-tag">and</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Integer</span></div><div class="line"><span class="selector-tag">long</span> <span class="selector-tag">and</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Long</span></div><div class="line"><span class="selector-tag">short</span> <span class="selector-tag">and</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.Short</span></div><div class="line"><span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.String</span></div><div class="line"><span class="selector-tag">java</span><span class="selector-class">.sql</span><span class="selector-class">.Date</span></div><div class="line"><span class="selector-tag">java</span><span class="selector-class">.sql</span><span class="selector-class">.Time</span></div><div class="line"><span class="selector-tag">java</span><span class="selector-class">.sql</span><span class="selector-class">.Timestamp</span></div></pre></td></tr></table></figure>
+<p>��Ӧ���ࣺ<br><img src="http://img.blog.csdn.net/20160819100428832" alt="����дͼƬ����"></p>
+<p>ע������û��java.util.Date���ͣ�ֻ��java.sql.Date�����ˣ�������ʹ��java.util.Dateʱ��BeanUtils�������Լ������ǽ���ת������Ҫ�����Լ�ȥʵ��Converter�ӿڡ����������Լ���һ��DateConverter��ʵ��Date���ͺ��ַ�������ת��:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">package apache.commons.beanutil;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.sql.Timestamp;</div><div class="line"><span class="keyword">import</span> java.text.DateFormat;</div><div class="line"><span class="keyword">import</span> java.text.ParseException;</div><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.commons.beanutils.ConversionException;</div><div class="line"><span class="keyword">import</span> org.apache.commons.beanutils.Converter;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> DateConverter <span class="keyword">implements</span> Converter&#123;</div><div class="line">	<span class="keyword">public</span> <span class="built_in">String</span> Pattern = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> DateConverter() &#123;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> DateConverter(<span class="built_in">String</span> pattern) &#123;</div><div class="line">		<span class="keyword">this</span>.Pattern = pattern;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> <span class="built_in">Object</span> convert(Class clazz, <span class="built_in">Object</span> obj) &#123;</div><div class="line">		<span class="keyword">if</span>(obj == <span class="literal">null</span>)</div><div class="line">			<span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">		<span class="keyword">if</span>(clazz == <span class="built_in">Date</span>.class)&#123;</div><div class="line">			<span class="keyword">return</span> convertToDate(clazz, obj, Pattern);</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(clazz == <span class="built_in">String</span>.class)&#123;</div><div class="line">			<span class="keyword">return</span> convertToString(clazz, obj, Pattern);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> ConversionException(obj.getClass().getName() + <span class="string">"����ת��Ϊ"</span> + clazz.getName());</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="built_in">Date</span> convertToDate(Class clazz, <span class="built_in">Object</span> obj, <span class="built_in">String</span> pattern)&#123;</div><div class="line">		DateFormat format = <span class="keyword">new</span> SimpleDateFormat(pattern);</div><div class="line">		<span class="keyword">if</span>(obj <span class="keyword">instanceof</span> <span class="built_in">String</span>)&#123;</div><div class="line">			<span class="built_in">String</span> dateStr = (<span class="built_in">String</span>)obj;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				<span class="keyword">if</span>(clazz == Timestamp.class)&#123;</div><div class="line">					<span class="keyword">return</span> <span class="keyword">new</span> Timestamp(<span class="keyword">new</span> <span class="built_in">Date</span>().getTime());</div><div class="line">				&#125;</div><div class="line">				<span class="built_in">Date</span> d = format.parse(dateStr);</div><div class="line">				<span class="keyword">return</span> d;</div><div class="line">			&#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">				<span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> <span class="built_in">Date</span>)&#123;</div><div class="line">			<span class="keyword">return</span> (<span class="built_in">Date</span>)obj;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> ConversionException(obj.getClass().getName() + <span class="string">"����ת��Ϊ"</span> + clazz.getName());</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="built_in">String</span> convertToString(Class clazz, <span class="built_in">Object</span> obj, <span class="built_in">String</span> pattern)&#123;</div><div class="line">		DateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(pattern);</div><div class="line">		<span class="keyword">if</span>(obj <span class="keyword">instanceof</span> <span class="built_in">Date</span>)&#123;</div><div class="line">			<span class="keyword">return</span> dateFormat.format((<span class="built_in">Date</span>)obj);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> obj.toString();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>�ڴ����и�����ʹ�������Լ�ʵ�ֵ�DateConverter�أ���ʵ�ܼ򵥣������ڵ���populate����ǰ����һ�д���:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ConvertUtils.<span class="keyword">register</span>(<span class="keyword">new</span> DateConverter(), Date.<span class="keyword">class</span>);</div></pre></td></tr></table></figure>
+<p>Ϊʲô�������д����󣬾���ʵ��date����ת���أ����ٲ鿴Դ�������ҵ��𰸡�</p>
+<p>���Ȳ鿴BeanUtils.populate�����������ڲ�ʵ����BeanUtilsBeanȥʵ�ֵ�:<br><img src="http://img.blog.csdn.net/20160819102537696" alt="����дͼƬ����"></p>
+<p>��������BeanUtilsBean�����Կ����Ƚ�����Ҫת����Map���б�����Ȼ������setProperty�������ǵģ���û���������ǵ���setProperty��������ʵ�����Կ���BeanUtils.setProperty(Object bean, String name, Object value)��������ʵҲ�ǵ��õ�BeanUtilsBean.setProperty(Object bean, String name, Object value)�������������Կ�����MapתΪbean�Ĺ��̣����Ǳ���Map��Ȼ����Map�е�key��Value�����ý�bean�У�����������һģһ����</p>
+<p><img src="http://img.blog.csdn.net/20160819102555868" alt="����дͼƬ����"></p>
+<p>�����������ǿ���BeanUtilsBean.setProperty�ķ����ڲ������κ�ConvertUtils�ҹ�����ͼ�е�value����setProperty�����е�3����������Ҫ���õ�ֵ��������Ҫ�ж�value�Ƿ�Ϊ�ַ������ַ������ݣ��������ַ��������ݣ��͵���getConvertUtils().convert������������ת����</p>
+<p><img src="http://img.blog.csdn.net/20160819102608904" alt="����дͼƬ����"></p>
+<p>��ͼ��getConvertUtils()�����Ķ��壬ע�ⷵ��ֵ��ConvertUtilsBean��<br><img src="http://img.blog.csdn.net/20160819102625295" alt="����дͼƬ����"></p>
+<p>�����ǵ�ConvertUtils.register(Converter converter, Class clazz)�������ڲ�Ҳ��ConvertUtilsBean������,����register��������ע�ᣬ��ʵConvertUtilsBean��������һ��hashMap���д�ȡ:<br><img src="http://img.blog.csdn.net/20160819104733913" alt="����дͼƬ����"></p>
+<p>���ˣ��������ף�ΪʲôConvertUtils.registerע��һ��Converter�Ϳ�����BeanUtils����ʵ������ת����<br>ͬ������ʹ��BeanUtils.copyProperties(Object dest, Object orig)ʱ��Ҳ�ǵ��õ�BeanUtilsBean.copyProperty(Object bean, String name, Object value)�������������ַ���תjava.util.DateҲ��Ҫ�Լ�ʵ��ת����</p>
+<h2 id="4-�ܽ�"><a href="#4-�ܽ�" class="headerlink" title="4.�ܽ�"></a>4.�ܽ�</h2><p>�����򵥵Ľ�����apache commons BeanUtils�ĳ����÷�����BeanUtils������ת����������һ������̽����BeanUtilsʹ����������Ŀ��дʱ���ܴ��������ı������������ǵ�bean����100�������ԣ�ÿ����Ҫһһ��setter/getter��ֱҪ������ʱʹ��copyProperties��������д�ü�ʮ�д��룬���뿴���������ࡣ������Ҳ����һЩȱ�ݣ���������Ч�����⡣ʹ��BeanUtils������ÿ�������ַ���ҪҪ�����жϣ���������ת���ȵȲ��������ɵ����ܽϵͣ�BeanUtils��bean���Եĸ���ʱ�䳬���ֶ�setter/getterʱ�䡣���˶�����Ҫ���ϸߵ�ϵͳ�����ʺ�ʹ��apache commons BeanUtils��Cglib BeanCopierҲ����Ϊbean����ת�����ߣ�����asm�ֽ������ɼ��������ܷǳ��á�����һ���ӣ���ʱ�����о�һ�¡�</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/07/22/java内存溢出及其解决方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java内存溢出及其解决方法</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="apache Commons-beanutils的使用" data-title="apache Commons-beanutils��ʹ��" data-url="https://tangfeng1012.github.io/2016/08/19/apache Commons-beanutils的使用/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"tangfengduoshuo.duoshuo.com"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 tangfeng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/http _7.url.cn_edu_jslib_comb_require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="/js/MathJax.js"></script>
+
+  </div>
+</body>
+</html>
