@@ -6,12 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>tangfeng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="java�ڴ�ģ��(JMM)
+�ڲ��������У����ù����ڴ�ģ����ʵ�ֶ��̼߳�����Ϣͨ�ź�����ͬ����
+�̼߳�����Ϣͨ�ţ���ͨ����-д�ڴ��еĹ��������Ĺ���״̬����������ʽ��ͨ�š�����ͬ��ָ���ǿ��ƶ����߳�֮��ִ�г���������˳����һ�ֻ��ƣ��ڹ����ڴ�ģ���У�ͬ������ʽ�">
+<meta property="og:type" content="article">
 <meta property="og:title" content="tangfeng的博客">
-<meta property="og:url" content="https://tangfeng1012.github.io/index.html">
+<meta property="og:url" content="https://tangfeng1012.github.io/2017/08/05/java内存模型（JMM）/index.html">
 <meta property="og:site_name" content="tangfeng的博客">
+<meta property="og:description" content="java�ڴ�ģ��(JMM)
+�ڲ��������У����ù����ڴ�ģ����ʵ�ֶ��̼߳�����Ϣͨ�ź�����ͬ����
+�̼߳�����Ϣͨ�ţ���ͨ����-д�ڴ��еĹ��������Ĺ���״̬����������ʽ��ͨ�š�����ͬ��ָ���ǿ��ƶ����߳�֮��ִ�г���������˳����һ�ֻ��ƣ��ڹ����ڴ�ģ���У�ͬ������ʽ�">
+<meta property="og:image" content="http://img.blog.csdn.net/20170803154246567?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170803185537268?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-08-05T09:45:50.258Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tangfeng的博客">
+<meta name="twitter:description" content="java�ڴ�ģ��(JMM)
+�ڲ��������У����ù����ڴ�ģ����ʵ�ֶ��̼߳�����Ϣͨ�ź�����ͬ����
+�̼߳�����Ϣͨ�ţ���ͨ����-д�ڴ��еĹ��������Ĺ���״̬����������ʽ��ͨ�š�����ͬ��ָ���ǿ��ƶ����߳�֮��ִ�г���������˳����һ�ֻ��ƣ��ڹ����ڴ�ģ���У�ͬ������ʽ�">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170803154246567?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
   
     <link rel="alternative" href="/atom.xml" title="tangfeng的博客" type="application/atom+xml">
   
@@ -205,9 +218,7 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
-  
-    <article id="post-java内存模型（JMM）" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-java内存模型（JMM）" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2017/08/05/java内存模型（JMM）/" class="article-date">
@@ -318,297 +329,68 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/08/19/apache Commons-beanutils的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">apache Commons-beanutils的使用</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
   
 </article>
 
 
-
-
-
-
-
-
-
-  
-    <article id="post-apache Commons-beanutils的使用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/19/apache Commons-beanutils的使用/" class="article-date">
-  	<time datetime="2016-08-19T03:31:00.000Z" itemprop="datePublished">2016-08-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/19/apache Commons-beanutils的使用/">apache Commons-beanutils的使用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1.背景"></a>1.背景</h2><p>在java开发过程中，经常会与javabean打交道，像Entity、pojo、vo、dto等等。java应用非常讲究分层架构，因此在各层之间bean的传输与转换非常的繁琐，比如:</p>
-<figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="type">Student</span> stu = <span class="function"><span class="keyword">new</span> <span class="title">Student</span>();</div><div class="line"><span class="title">stu</span>.<span class="title">setName</span>(bean.getName());</div><div class="line"><span class="title">stu</span>.<span class="title">setClassName</span>(bean.getClassName());</div><div class="line"><span class="title">stu</span>.<span class="title">setPeople</span>(bean.getPeople());</div><div class="line"><span class="title">stu</span>.<span class="title">setScore</span>(bean.getScore());</span></div></pre></td></tr></table></figure>
-<p>相信大家都会遇到或使用这种方式赋值或取值，这种做法感觉非常恶心，一旦bean的属性很多，增加代码长度不说，还特别影响阅读代码的心情。<br>为此，业界有很多开源的实现，比如:</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">apache</span> commons PropertiyUtils</div><div class="line"><span class="symbol">apache</span> commons <span class="keyword">BeanUrils</div><div class="line"></span><span class="symbol">Spring</span> <span class="keyword">BeanUtils</div><div class="line"></span><span class="symbol">Cglib</span> <span class="keyword">BeanCopier</div><div class="line"></span><span class="symbol">Dozer</span></div></pre></td></tr></table></figure>
-<p>今天就来探究下apache commons BeanUtils的用法</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Apache-Commons/">Apache-Commons</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li></ul>
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/技术波文/">技术波文</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/08/19/apache Commons-beanutils的使用/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
 
 
 
 
-
-
-
-  
-    <article id="post-java内存溢出及其解决方法" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/07/22/java内存溢出及其解决方法/" class="article-date">
-  	<time datetime="2016-07-22T09:46:31.000Z" itemprop="datePublished">2016-07-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/22/java内存溢出及其解决方法/">java内存溢出及其解决方法</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>很多时候，在开发阶段Tomcat重复的重启过程中会遇到java.lang.OutOfMemoryError : PermGen space 错误。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">java<span class="selector-class">.lang</span><span class="selector-class">.OutOfMemoryError</span>: PermGen space</div><div class="line">        at java<span class="selector-class">.lang</span><span class="selector-class">.ClassLoader</span><span class="selector-class">.defineClass1</span>(Native Method)</div><div class="line">        at java<span class="selector-class">.lang</span><span class="selector-class">.ClassLoader</span><span class="selector-class">.defineClass</span>(ClassLoader<span class="selector-class">.java</span>:<span class="number">620</span>)</div><div class="line">        at java<span class="selector-class">.security</span><span class="selector-class">.SecureClassLoader</span><span class="selector-class">.defineClass</span>(SecureClassLoader<span class="selector-class">.java</span>:<span class="number">124</span>)</div></pre></td></tr></table></figure>
-<p>PermGen space的全称是Permanent Generation space,是指内存的永久保存区域,这块内存主要是被JVM存放Class和Meta信息的,Class在被Loader时就会被放到PermGen space中, 它和存放类实例(Instance)的Heap区域不同,GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理，所以如果你的应用中有很多CLASS的话,就很可能出现PermGen space错误, 这种错误常见在web服务器对JSP进行pre compile的时候。如果你的WEB APP下都用了大量的第三方jar, 其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。</p>
-<p>怎么解决这种问题呢?</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TOMCAT/">TOMCAT</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/技术波文/">技术波文</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/07/22/java内存溢出及其解决方法/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="java内存模型（JMM）" data-title="" data-url="https://tangfeng1012.github.io/2017/08/05/java内存模型（JMM）/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"tangfengduoshuo"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
 
 
-
-
-
-
-
-  
-    <article id="post-用httpUrlConnection实现文件上传" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/07/14/用httpUrlConnection实现文件上传/" class="article-date">
-  	<time datetime="2016-07-14T02:44:09.000Z" itemprop="datePublished">2016-07-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/14/用httpUrlConnection实现文件上传/">用httpUrlConnection实现文件上传</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1、事先了解"><a href="#1、事先了解" class="headerlink" title="1、事先了解"></a>1、事先了解</h2><p>1.1 请求格式<br>我们使用http来上传文件，必须先了解http的请求格式，然后才好发报。主要分为以下四个部分：</p>
-<ul>
-<li>分界符：由两个连字符“–”和任意字符串组成；</li>
-<li>标准http报文格式，来形容上传文件的相关信息，包括请求参数名，上传文件名，文件类型，接收语言等。</li>
-<li>上传文件的内容，通常是字节流的形式；</li>
-<li>文件全部上传后的结束符：与分界符类似，只不过需要在分界符后面再加两个连字符。</li>
-</ul>
-<p>1.2 http报文格式<br>http请求报文<br>一个http请求报文格式是由四个部分组成，分别是请求行，请求头部，空行和请求数据。其中需要注意的是空行，是必须的。</p>
-<p>1）请求行<br>请求行是由请求方法、URL字段和HTTP协议版本这个3个部分组成。<br>请求方法有8个——<br>GET、POST、HEAD、PUT、DELETE、OPTIONS、TRACE、CONNECT。<br>一般常用的就是GET 和 POST 方法。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件上传/">文件上传</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/技术波文/">技术波文</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/07/14/用httpUrlConnection实现文件上传/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/07/13/hello-world/" class="article-date">
-  	<time datetime="2016-07-13T10:21:55.432Z" itemprop="datePublished">2016-07-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/13/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -632,8 +414,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
