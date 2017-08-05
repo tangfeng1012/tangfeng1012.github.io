@@ -76,7 +76,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -224,7 +224,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/31/java内存模型（JMM）/">java�ڴ�ģ��(JMM)</a>
+      <a class="article-title" href="/2016/08/31/java内存模型（JMM）/">java内存模型(JMM)</a>
     </h1>
   
 
@@ -234,10 +234,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>�ڲ��������У����ù����ڴ�ģ����ʵ�ֶ��̼߳�����Ϣͨ�ź�����ͬ����</p>
-<p><strong>�̼߳�����Ϣͨ�ţ���ͨ����-д�ڴ��еĹ��������Ĺ���״̬����������ʽ��ͨ�š�����ͬ��ָ���ǿ��ƶ����߳�֮��ִ�г���������˳����һ�ֻ��ƣ��ڹ����ڴ�ģ���У�ͬ������ʽ�ģ�����Ա������ʽ��ָ�������ķ���/������ �ڶ����̼߳以����ִ�С�</strong></p>
-<p>��̸���ڴ�ģ��ʱ����Ҫ̸̸��java�е�<strong>�ڴ��ṹ��Ҳ��������ʱ����������</strong></p>
-<p>java��������ִ�г�����ʱ�򣬻������������ڴ滮��Ϊ������ͬ������������ÿ�������������и��Ե���;���Լ����������ٵ�ʱ�䣬�е������������������̵����������ڣ���Щ�����������û��̵߳������ͽ��������������١�
+<p>在并发编程中，采用共享内存模型来实现多线程间的信息通信和数据同步。</p>
+<p><strong>线程间的信息通信，是通过读-写内存中的共享程序的公共状态，来进行隐式的通信。数据同步指的是控制多个线程之间执行程序的相对顺序的一种机制，在共享内存模型中，同步是显式的，程序员必须显式的指定程序的方法/代码块 在多个线程间互斥的执行。</strong></p>
+<p>在谈到内存模型时，先要谈谈在java中的<strong>内存结构，也就是运行时的数据区域</strong></p>
+<p>java虚拟机在执行程序的时候，会把它管理的内存划分为几个不同的数据区域，每个数据区域都有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。java虚拟机管理的运行时区域包含以下几部分，如图：</p>
+<p><img src="http://img.blog.csdn.net/20170803154246567?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="java VM Runtime Data"></p>
       
     </div>
     
@@ -250,7 +251,7 @@
 
       
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/��������/">��������</a>
+	<a class="article-category-link" href="/categories/技术波文/">技术波文</a>
 	</div>
 
 
