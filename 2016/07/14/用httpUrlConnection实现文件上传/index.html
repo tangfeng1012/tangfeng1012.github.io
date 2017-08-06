@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>用httpUrlConnection实现文件上传 | tangfeng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1、事先了解1.1 请求格式我们使用http来上传文件，必须先了解http的请求格式，然后才好发报。主要分为以下四个部分：  分界符：由两个连字符“–”和任意字符串组成； 标准http报文格式，来形容上传文件的相关信息，包括请求参数名，上传文件名，文件类型，接收语言等。 上传文件的内容，通常是字节流的形式； 文件全部上传后的结束符：与分界符类似，只不过需要在分界符后面再加两个连字符。  1.2 h">
+<meta name="keywords" content="JAVA,HTTP,文件上传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用httpUrlConnection实现文件上传">
+<meta property="og:url" content="https://tangfeng1012.github.io/2016/07/14/用httpUrlConnection实现文件上传/index.html">
+<meta property="og:site_name" content="tangfeng的博客">
+<meta property="og:description" content="1、事先了解1.1 请求格式我们使用http来上传文件，必须先了解http的请求格式，然后才好发报。主要分为以下四个部分：  分界符：由两个连字符“–”和任意字符串组成； 标准http报文格式，来形容上传文件的相关信息，包括请求参数名，上传文件名，文件类型，接收语言等。 上传文件的内容，通常是字节流的形式； 文件全部上传后的结束符：与分界符类似，只不过需要在分界符后面再加两个连字符。  1.2 h">
+<meta property="og:image" content="https://tangfeng1012.github.io/2016/07/14/用httpUrlConnection实现文件上传/header.jpg">
+<meta property="og:updated_time" content="2016-08-19T07:17:26.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用httpUrlConnection实现文件上传">
+<meta name="twitter:description" content="1、事先了解1.1 请求格式我们使用http来上传文件，必须先了解http的请求格式，然后才好发报。主要分为以下四个部分：  分界符：由两个连字符“–”和任意字符串组成； 标准http报文格式，来形容上传文件的相关信息，包括请求参数名，上传文件名，文件类型，接收语言等。 上传文件的内容，通常是字节流的形式； 文件全部上传后的结束符：与分界符类似，只不过需要在分界符后面再加两个连字符。  1.2 h">
+<meta name="twitter:image" content="https://tangfeng1012.github.io/2016/07/14/用httpUrlConnection实现文件上传/header.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="tangfeng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140" class="js-avatar" src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">tangfeng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">爱生活 爱分享</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+							<li><a href="/photos">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/tangfeng1012" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="#" title="mail">mail</a>
+					        
+								<a class="rss" target="_blank" href="#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/feng-tang-91" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Apache-Commons/" style="font-size: 10px;">Apache-Commons</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JMM/" style="font-size: 10px;">JMM</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">tangfeng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">tangfeng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">爱生活 爱分享</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+					<li><a href="/photos">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/tangfeng1012" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="#" title="mail">mail</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/feng-tang-91" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-用httpUrlConnection实现文件上传" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/14/用httpUrlConnection实现文件上传/" class="article-date">
+  	<time datetime="2016-07-14T02:44:09.000Z" itemprop="datePublished">2016-07-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      用httpUrlConnection实现文件上传
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件上传/">文件上传</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/技术波文/">技术波文</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1、事先了解"><a href="#1、事先了解" class="headerlink" title="1、事先了解"></a>1、事先了解</h2><p>1.1 请求格式<br>我们使用http来上传文件，必须先了解http的请求格式，然后才好发报。主要分为以下四个部分：</p>
+<ul>
+<li>分界符：由两个连字符“–”和任意字符串组成；</li>
+<li>标准http报文格式，来形容上传文件的相关信息，包括请求参数名，上传文件名，文件类型，接收语言等。</li>
+<li>上传文件的内容，通常是字节流的形式；</li>
+<li>文件全部上传后的结束符：与分界符类似，只不过需要在分界符后面再加两个连字符。</li>
+</ul>
+<p>1.2 http报文格式<br>http请求报文<br>一个http请求报文格式是由四个部分组成，分别是请求行，请求头部，空行和请求数据。其中需要注意的是空行，是必须的。</p>
+<p>1）请求行<br>请求行是由请求方法、URL字段和HTTP协议版本这个3个部分组成。<br>请求方法有8个——<br>GET、POST、HEAD、PUT、DELETE、OPTIONS、TRACE、CONNECT。<br>一般常用的就是GET 和 POST 方法。</p>
+<a id="more"></a>
+<p>简单说下两者区别：</p>
+<ul>
+<li><p>GET<br>绝大部分的HTTP请求报文使用的是GET方法，如get这个单词本身含义一样，GET方法是用于获取查询资源信息，当浏览器请求一个对象时，使用GET方法。</p>
+</li>
+<li><p>POST<br>HTTP客户机常常在用户提交表单时使用POST方法，需要用到实体主体。POST表示可能修改变服务器上的资源的请求。</p>
+</li>
+</ul>
+<p>get请求可以获取静态页面，也可以把参数放在URL字串后面，传递给servlet，<br>post与get的不同之处在于post的参数不是放在URL字串里面，而是放在http请求的正文内。 </p>
+<p>URL字段就是”<a href="http://192.168.1.110:8080/abc&quot;这种浏览器访问地址。" target="_blank" rel="external">http://192.168.1.110:8080/abc&quot;这种浏览器访问地址。</a><br>HTTP协议版本就是1.0 或者1.1 这两种其中之一。<br>2）请求头部<br><img src="header.jpg" alt="head"></p>
+<h2 id="2、客户端-上传代码"><a href="#2、客户端-上传代码" class="headerlink" title="2、客户端 上传代码"></a>2、客户端 上传代码</h2><p>httpUrlConnection是 URLConnection的子类，我们先来看看 URLConnection这个抽象类的相关介绍。<br>&nbsp;&nbsp;&nbsp;&nbsp;注：以下内容来自 JDK API 1.6：<br>抽象类URLConnection 是所有类的超类，它代表应用程序和 URL 之间的通信链接。此类的实例可用于读取和写入此 URL 引用的资源。通常，创建一个到 URL 的连接需要几个步骤：</p>
+<ul>
+<li><p>openConnection()<br>对影响到远程资源连接的参数进行操作。</p>
+</li>
+<li><p>connect()<br>与资源交互；查询头字段和内容。</p>
+</li>
+</ul>
+<p>时间</p>
+<ol>
+<li><p>通过在 URL 上调用 openConnection 方法创建连接对象。</p>
+</li>
+<li><p>处理设置参数和一般请求属性。</p>
+</li>
+<li><p>使用 connect 方法建立到远程对象的实际连接。</p>
+</li>
+<li><p>远程对象变为可用。远程对象的头字段和内容变为可访问。</p>
+</li>
+</ol>
+<p>使用以下方法修改设置参数：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span>AllowUserInteraction</div><div class="line"></div><div class="line"><span class="keyword">set</span>DoInput</div><div class="line"></div><div class="line"><span class="keyword">set</span>DoOutput</div><div class="line"></div><div class="line"><span class="keyword">set</span>IfModifiedSince</div><div class="line"></div><div class="line"><span class="keyword">set</span>UseCaches</div></pre></td></tr></table></figure>
+<p>使用以下方法修改一般请求属性：setRequestProperty<br>使用setDefaultAllowUserInteraction 和 setDefaultUseCaches 可设置 AllowUserInteraction 和 UseCaches参数的默认值。<br>上面每个set 方法都有一个用于获取参数值或一般请求属性值的对应 get 方法。适用的具体参数和一般请求属性取决于协议。</p>
+<p>在建立到远程对象的连接后，以下方法用于访问头字段和内容：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">getContent</span></div><div class="line"></div><div class="line"><span class="attribute">getHeaderField</span></div><div class="line"></div><div class="line"><span class="attribute">getInputStream</span></div><div class="line"></div><div class="line"><span class="attribute">getOutputStream</span></div></pre></td></tr></table></figure></p>
+<p>某些头字段需要经常访问。以下方法：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="attribute">getContentEncoding</span></div><div class="line"></div><div class="line"><span class="attribute">getContentLength</span></div><div class="line"></div><div class="line"><span class="attribute">getContentType</span></div><div class="line"></div><div class="line"><span class="attribute">getDate</span></div><div class="line"></div><div class="line"><span class="attribute">getExpiration</span></div><div class="line"></div><div class="line"><span class="attribute">getLastModifed</span></div></pre></td></tr></table></figure></p>
+<p>提供对这些字段的便捷访问。getContent方法使用 getContentType 方法以确定远程对象类型；子类重写 getContentType 方法很容易。<br>一般情况下，所有的预连接参数和一般请求属性都可忽略：预连接参数和一般请求属性默认为敏感值。对于此接口的大多数客户端而言，只有两个需要的方法：getInputStream和getContent，它们通过便捷方法镜像到 URL 类中。</p>
+<p>而API上对 HttpURLConnection 的介绍是：<br>每个HttpURLConnection 实例都可用于生成单个请求，但是其他实例可以透明地共享连接到 HTTP 服务器的基础网络。请求后在HttpURLConnection 的 InputStream 或 OutputStream 上调用 close() 方法可以释放与此实例关联的网络资源，但对共享的持久连接没有任何影响。如果在调用 disconnect() 时持久连接空闲，则可能关闭基础套接字。</p>
+<p>因此，由上可知，HttpURLConnection是java用于特定的HTTP通信的类。通过使用HttpURLConnection对象的方法设置相关参数，我们就能进行http通信。<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.</span> <span class="keyword">public</span> <span class="keyword">void</span> setDoInput(<span class="keyword">boolean</span> doinput) 方法</div><div class="line">如果打算使用 URL 连接进行输入，则将 DoInput 标志设置为 <span class="keyword">true</span>；如果不打算使用，则设置为 <span class="keyword">false</span>。默认值为<span class="keyword">true</span>。</div><div class="line">          </div><div class="line"><span class="number">2.</span> <span class="keyword">public</span> <span class="keyword">void</span> setDoOutput(<span class="keyword">boolean</span> dooutput)</div><div class="line">将此 URLConnection 的 doOutput 字段的值设置为指定的值。</div><div class="line"></div><div class="line"><span class="number">3.</span> <span class="keyword">public</span> <span class="keyword">void</span> setUseCaches(<span class="keyword">boolean</span> usecaches)</div><div class="line">将此 URLConnection 的 useCaches 字段的值设置为指定的值。</div><div class="line">有些协议用于文档缓存。有时候能够进行“直通”并忽略缓存尤其重要，例如浏览器中的“重新加载”按钮。如果连接中的UseCaches 标志为 <span class="keyword">true</span>，则允许连接使用任何可用的缓存。如果为 <span class="keyword">false</span>，则忽略缓存。默认值来自 DefaultUseCaches，它默认为 <span class="keyword">true</span>。</div></pre></td></tr></table></figure></p>
+<p>具体代码如下：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 上传文件至Server的方法 */</span>  </div><div class="line">    private void uploadFile() &#123;  </div><div class="line">        String end = <span class="string">"\r\n"</span><span class="comment">;  </span></div><div class="line">        String twoHyphens = <span class="string">"--"</span><span class="comment">;  </span></div><div class="line">        String <span class="keyword">boundary </span>= <span class="string">"*****"</span><span class="comment">;  </span></div><div class="line">        String newName = <span class="string">"image.jpg"</span><span class="comment">;  </span></div><div class="line">        String uploadFile = <span class="string">"storage/sdcard1/bagPictures/102.jpg"</span><span class="comment">;  </span></div><div class="line">        <span class="comment">;  </span></div><div class="line">        String actionUrl = <span class="string">"http://192.168.1.123:8080/upload/servlet/UploadServlet"</span><span class="comment">;  </span></div><div class="line">        try &#123;  </div><div class="line">            URL url = new URL(actionUrl)<span class="comment">;  </span></div><div class="line">            HttpURLConnection con = (HttpURLConnection) url.openConnection()<span class="comment">;  </span></div><div class="line">            <span class="comment">/* 允许Input、Output，不使用Cache */</span>  </div><div class="line">            con.setDoInput(true)<span class="comment">;  </span></div><div class="line">            con.setDoOutput(true)<span class="comment">;  </span></div><div class="line">            con.setUseCaches(false)<span class="comment">;  </span></div><div class="line">            <span class="comment">/* 设置传送的method=POST */</span>  </div><div class="line">            con.setRequestMethod(<span class="string">"POST"</span>)<span class="comment">;  </span></div><div class="line">            <span class="comment">/* setRequestProperty */</span>  </div><div class="line">            con.setRequestProperty(<span class="string">"Connection"</span>, <span class="string">"Keep-Alive"</span>)<span class="comment">;  </span></div><div class="line">            con.setRequestProperty(<span class="string">"Charset"</span>, <span class="string">"UTF-8"</span>)<span class="comment">;  </span></div><div class="line">            con.setRequestProperty(<span class="string">"Content-Type"</span>,  </div><div class="line">                    <span class="string">"multipart/form-data;boundary="</span> + <span class="keyword">boundary); </span> </div><div class="line">            <span class="comment">/* 设置DataOutputStream */</span>  </div><div class="line">            DataOutputStream ds = new DataOutputStream(con.getOutputStream())<span class="comment">;  </span></div><div class="line">            ds.writeBytes(twoHyphens + <span class="keyword">boundary </span>+ end)<span class="comment">;  </span></div><div class="line">            ds.writeBytes(<span class="string">"Content-Disposition: form-data; "</span>  </div><div class="line">                    + <span class="string">"name=\"file1\";filename=\""</span> + newName + <span class="string">"\""</span> + end)<span class="comment">;  </span></div><div class="line">            ds.writeBytes(end)<span class="comment">;  </span></div><div class="line">            <span class="comment">/* 取得文件的FileInputStream */</span>  </div><div class="line">            FileInputStream fStream = new FileInputStream(uploadFile)<span class="comment">;  </span></div><div class="line">            <span class="comment">/* 设置每次写入1024bytes */</span>  </div><div class="line">            int <span class="keyword">bufferSize </span>= <span class="number">1024</span><span class="comment">;  </span></div><div class="line">            <span class="keyword">byte[] </span><span class="keyword">buffer </span>= new <span class="keyword">byte[bufferSize]; </span> </div><div class="line">            int length = -<span class="number">1</span><span class="comment">;  </span></div><div class="line">            <span class="comment">/* 从文件读取数据至缓冲区 */</span>  </div><div class="line">            while ((length = fStream.read(<span class="keyword">buffer)) </span>!= -<span class="number">1</span>) &#123;  </div><div class="line">                <span class="comment">/* 将资料写入DataOutputStream中 */</span>  </div><div class="line">                ds.write(<span class="keyword">buffer, </span><span class="number">0</span>, length)<span class="comment">;  </span></div><div class="line">            &#125;  </div><div class="line">            ds.writeBytes(end)<span class="comment">;  </span></div><div class="line">            ds.writeBytes(twoHyphens + <span class="keyword">boundary </span>+ twoHyphens + end)<span class="comment">;  </span></div><div class="line">            <span class="comment">/* close streams */</span>  </div><div class="line">            fStream.<span class="keyword">close(); </span> </div><div class="line">            ds.flush()<span class="comment">;  </span></div><div class="line">            <span class="comment">/* 取得Response内容 */</span>  </div><div class="line">            InputStream is = con.getInputStream()<span class="comment">;  </span></div><div class="line">            int ch<span class="comment">;  </span></div><div class="line">            StringBuffer <span class="keyword">b </span>= new StringBuffer()<span class="comment">;  </span></div><div class="line">            while ((ch = is.read()) != -<span class="number">1</span>) &#123;  </div><div class="line">                <span class="keyword">b.append((char) </span>ch)<span class="comment">;  </span></div><div class="line">            &#125;  </div><div class="line">            <span class="comment">/* 将Response显示于Dialog */</span>  </div><div class="line">            <span class="keyword">showDialog("上传成功" </span>+ <span class="keyword">b.toString().trim()); </span> </div><div class="line">            <span class="comment">/* 关闭DataOutputStream */</span>  </div><div class="line">            ds.<span class="keyword">close(); </span> </div><div class="line">        &#125; catch (Exception e) &#123;  </div><div class="line">            <span class="keyword">showDialog("上传失败" </span>+ e)<span class="comment">;  </span></div><div class="line">        &#125;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="3、服务器端-上传代码"><a href="#3、服务器端-上传代码" class="headerlink" title="3、服务器端 上传代码"></a>3、服务器端 上传代码</h2><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> class UploadServlet extends HttpServlet &#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> doGet(HttpServletRequest request, HttpServletResponse response)  </div><div class="line">            throws ServletException, IOException &#123;  </div><div class="line">        <span class="built_in">try</span> &#123;  </div><div class="line">            System.out.<span class="built_in">println</span>(<span class="string">"IP:"</span> + request.getRemoteAddr());  </div><div class="line">            <span class="comment">// 1、创建工厂类：DiskFileItemFactory  </span></div><div class="line">            DiskFileItemFactory facotry = <span class="keyword">new</span> DiskFileItemFactory();  </div><div class="line">            <span class="keyword">String</span> tempDir = getServletContext().getRealPath(<span class="string">"/WEB-INF/temp"</span>);  </div><div class="line">            facotry.setRepository(<span class="keyword">new</span> <span class="built_in">File</span>(tempDir));<span class="comment">//设置临时文件存放目录  </span></div><div class="line">            <span class="comment">// 2、创建核心解析类：ServletFileUpload  </span></div><div class="line">            ServletFileUpload upload = <span class="keyword">new</span> ServletFileUpload(facotry);  </div><div class="line">            upload.setHeaderEncoding(<span class="string">"UTF-8"</span>);<span class="comment">// 解决上传的文件名乱码  </span></div><div class="line">            upload.setFileSizeMax(<span class="number">1024</span> * <span class="number">1024</span> * <span class="number">1024</span>);<span class="comment">// 单个文件上传最大值是1M  </span></div><div class="line">            upload.setSizeMax(<span class="number">2048</span> * <span class="number">1024</span> * <span class="number">1024</span>);<span class="comment">//文件上传的总大小限制  </span></div><div class="line">  </div><div class="line">            <span class="comment">// 3、判断用户的表单提交方式是不是multipart/form-data  </span></div><div class="line">            <span class="keyword">boolean</span> bb = upload.isMultipartContent(request);  </div><div class="line">            <span class="built_in">if</span> (!bb) &#123;  </div><div class="line">                <span class="built_in">return</span>;  </div><div class="line">            &#125;  </div><div class="line">            <span class="comment">// 4、是：解析request对象的正文内容List&lt;FileItem&gt;  </span></div><div class="line">            List&lt;FileItem&gt; items = upload.parseRequest(request);  </div><div class="line">            <span class="keyword">String</span> storePath = getServletContext().getRealPath(  </div><div class="line">                    <span class="string">"/WEB-INF/upload"</span>);<span class="comment">// 上传的文件的存放目录  </span></div><div class="line">            <span class="built_in">for</span> (FileItem item : items) &#123;  </div><div class="line">                <span class="built_in">if</span> (item.isFormField()) &#123;  </div><div class="line">                    <span class="comment">// 5、判断是否是普通表单：打印看看  </span></div><div class="line">                    <span class="keyword">String</span> fieldName = item.getFieldName();<span class="comment">// 请求参数名  </span></div><div class="line">                    <span class="keyword">String</span> fieldValue = item.getString(<span class="string">"UTF-8"</span>);<span class="comment">// 请求参数值  </span></div><div class="line">                    System.out.<span class="built_in">println</span>(fieldName + <span class="string">"="</span> + fieldValue);  </div><div class="line">                &#125; <span class="built_in">else</span> &#123;  </div><div class="line">                    <span class="comment">// 6、上传表单：得到输入流，处理上传：保存到服务器的某个目录中，保存时的文件名是啥？  </span></div><div class="line">                    <span class="keyword">String</span> fileName = item.getName();<span class="comment">// 得到上传文件的名称 C:\Documents  </span></div><div class="line">                                                        <span class="comment">// and  </span></div><div class="line">                                                        <span class="comment">// Settings\shc\桌面\a.txt  </span></div><div class="line">                                                        <span class="comment">// a.txt  </span></div><div class="line">                    <span class="comment">//解决用户没有选择文件上传的情况  </span></div><div class="line">                    <span class="built_in">if</span>(fileName==null||fileName.trim().equals(<span class="string">""</span>))&#123;  </div><div class="line">                        <span class="built_in">continue</span>;  </div><div class="line">                    &#125;  </div><div class="line">                    fileName = fileName  </div><div class="line">                            .substring(fileName.lastIndexOf(<span class="string">"\\"</span>) + <span class="number">1</span>);  </div><div class="line">                    <span class="keyword">String</span> newFileName = UUIDUtil.getUUID() + <span class="string">"_"</span> + fileName;  </div><div class="line">                    System.out.<span class="built_in">println</span>(<span class="string">"上传的文件名是："</span> + fileName);  </div><div class="line">                    InputStream in = item.getInputStream();  </div><div class="line">                    <span class="keyword">String</span> savePath = makeDir(storePath, fileName) + <span class="string">"\\"</span>  </div><div class="line">                            + newFileName;  </div><div class="line">                    OutputStream out = <span class="keyword">new</span> FileOutputStream(savePath);  </div><div class="line">                    <span class="keyword">byte</span> b[] = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];  </div><div class="line">                    <span class="keyword">int</span> len = <span class="number">-1</span>;  </div><div class="line">                    <span class="built_in">while</span> ((len = in.<span class="built_in">read</span>(b)) != <span class="number">-1</span>) &#123;  </div><div class="line">                        out.<span class="built_in">write</span>(b, <span class="number">0</span>, len);  </div><div class="line">                    &#125;  </div><div class="line">                    in.<span class="built_in">close</span>();  </div><div class="line">                    out.<span class="built_in">close</span>();  </div><div class="line">                    item.<span class="keyword">delete</span>();<span class="comment">//删除临时文件  </span></div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">        &#125;<span class="built_in">catch</span>(FileUploadBase.FileSizeLimitExceededException e)&#123;  </div><div class="line">            request.setAttribute(<span class="string">"message"</span>, <span class="string">"单个文件大小不能超出5M"</span>);  </div><div class="line">            request.getRequestDispatcher(<span class="string">"/message.jsp"</span>).forward(request,  </div><div class="line">                    response);  </div><div class="line">        &#125;<span class="built_in">catch</span>(FileUploadBase.SizeLimitExceededException e)&#123;  </div><div class="line">            request.setAttribute(<span class="string">"message"</span>, <span class="string">"总文件大小不能超出7M"</span>);  </div><div class="line">            request.getRequestDispatcher(<span class="string">"/message.jsp"</span>).forward(request,  </div><div class="line">                    response);  </div><div class="line">    &#125;<span class="built_in">catch</span> (Exception e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">            request.setAttribute(<span class="string">"message"</span>, <span class="string">"上传失败"</span>);  </div><div class="line">            request.getRequestDispatcher(<span class="string">"/message.jsp"</span>).forward(request,  </div><div class="line">                    response);  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">// WEB-INF/upload/1/3 打散存储目录  </span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">String</span> makeDir(<span class="keyword">String</span> storePath, <span class="keyword">String</span> fileName) &#123;  </div><div class="line">        <span class="keyword">int</span> hashCode = fileName.hashCode();<span class="comment">// 得到文件名的hashcode码  </span></div><div class="line">        <span class="keyword">int</span> dir1 = hashCode &amp; <span class="number">0xf</span>;<span class="comment">// 取hashCode的低4位 0~15  </span></div><div class="line">        <span class="keyword">int</span> dir2 = (hashCode &amp; <span class="number">0xf0</span>) &gt;&gt; <span class="number">4</span>;<span class="comment">// 取hashCode的高4位 0~15  </span></div><div class="line">        <span class="keyword">String</span> path = storePath + <span class="string">"\\"</span> + dir1 + <span class="string">"\\"</span> + dir2;  </div><div class="line">        <span class="built_in">File</span> file = <span class="keyword">new</span> <span class="built_in">File</span>(path);  </div><div class="line">        <span class="built_in">if</span> (!file.<span class="built_in">exists</span>())  </div><div class="line">            file.mkdirs();  </div><div class="line">        System.out.<span class="built_in">println</span>(<span class="string">"存储路径是"</span>+path);  </div><div class="line">        <span class="built_in">return</span> path;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> doPost(HttpServletRequest request, HttpServletResponse response)  </div><div class="line">            throws ServletException, IOException &#123;  </div><div class="line">        doGet(request, response);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/22/java内存溢出及其解决方法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          java内存溢出及其解决方法
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="用httpUrlConnection实现文件上传" data-title="用httpUrlConnection实现文件上传" data-url="https://tangfeng1012.github.io/2016/07/14/用httpUrlConnection实现文件上传/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"tangfengduoshuo"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 tangfeng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/http _7.url.cn_edu_jslib_comb_require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="/js/MathJax.js"></script>
+
+  </div>
+</body>
+</html>
