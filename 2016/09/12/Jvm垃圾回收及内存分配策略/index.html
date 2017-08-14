@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Jvm垃圾回收及内存分配策略 | tangfeng的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="###1.垃圾回收
+　　说到垃圾回收（GC），我们需要考虑3件事情：
+
+
+哪些内存需要回收
+什么时候回收
+如何回收。
+
+
+####1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jvm垃圾回收及内存分配策略">
+<meta property="og:url" content="https://tangfeng1012.github.io/2016/09/12/Jvm垃圾回收及内存分配策略/index.html">
+<meta property="og:site_name" content="tangfeng的博客">
+<meta property="og:description" content="###1.垃圾回收
+　　说到垃圾回收（GC），我们需要考虑3件事情：
+
+
+哪些内存需要回收
+什么时候回收
+如何回收。
+
+
+####1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译">
+<meta property="og:image" content="http://img.blog.csdn.net/20170812173732277?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170814180326308?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-08-14T11:10:17.820Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jvm垃圾回收及内存分配策略">
+<meta name="twitter:description" content="###1.垃圾回收
+　　说到垃圾回收（GC），我们需要考虑3件事情：
+
+
+哪些内存需要回收
+什么时候回收
+如何回收。
+
+
+####1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170812173732277?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+  
+    <link rel="alternative" href="/atom.xml" title="tangfeng的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140" class="js-avatar" src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">tangfeng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">爱生活 爱分享</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/随笔">随笔</a></li>
+				        
+							<li><a href="/photos">相册</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/tangfeng1012" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="#" title="mail">mail</a>
+					        
+								<a class="rss" target="_blank" href="#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/feng-tang-91" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Apache-Commons/" style="font-size: 10px;">Apache-Commons</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JMM/" style="font-size: 15px;">JMM</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">tangfeng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="https://avatars1.githubusercontent.com/u/9913819?v=3&amp;u=2a5a189541c9cb52d3a17c4ae1bda3adbdeae888&amp;s=140" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">tangfeng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">爱生活 爱分享</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+					<li><a href="/photos">相册</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/tangfeng1012" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="#" title="mail">mail</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/feng-tang-91" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Jvm垃圾回收及内存分配策略" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/12/Jvm垃圾回收及内存分配策略/" class="article-date">
+  	<time datetime="2016-09-12T11:35:00.000Z" itemprop="datePublished">2016-09-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Jvm垃圾回收及内存分配策略
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JMM/">JMM</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/技术波文/">技术波文</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>###1.垃圾回收</p>
+<p>　　说到垃圾回收（GC），我们需要考虑3件事情：</p>
+<blockquote>
+<ul>
+<li>哪些内存需要回收</li>
+<li>什么时候回收</li>
+<li>如何回收。</li>
+</ul>
+</blockquote>
+<p>####1.1 哪些内存需要回收<br>　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译器优化，但大体上可以认为是在编译期可知的）。由于这几个区域内存的分配和回收都是具有确定性，所以这几个区域就不用过多考虑垃圾回收的问题。因为随着方法或者线程的结束，内存自然就跟着回收了。而java堆和方法区是所有线程共享的，一个接口的多个实现类需要的内存可能不一样，一个方法中多个分支需要的内存也不一样，只有在运行期才知道要创建哪些对象，这部分创建的对象和回收都是动态的，垃圾回收关注的就是这块区域。</p>
+<a id="more"></a>
+<p>　　</p>
+<p>####1.2 什么时候回收<br>　　在堆内存里面存放的是所以的java实例，包括一级对象数组。在对堆内存进行垃圾回收之前，得判断哪些对象还“存活”着，哪些对象已经“死去”（即在程序中没有任何地方引用到）。<br>　　<br>　　<strong>1.引用计数算法</strong><br>　　给对象添加一个引用计数器，每当有地方引用到该对象时，就对对象的引用计数器进行加1操作。当引用失效时，计数器值减1。当计数器的值为0时，说明没有任何地方引用到该对象，就可以进行回收。引用技术算法，大部分情况来说，是个不错的算法，实现简单，效率高。但是无法解决对象之间的循环引用，比如：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class ReferenceCountGC &#123;</div><div class="line"></div><div class="line">   <span class="keyword"> public</span> Object<span class="built_in"> instance </span>= null;</div><div class="line"></div><div class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> void testGC() &#123;</div><div class="line">        ReferenceCountGC objA =<span class="built_in"> new </span>ReferenceCountGC();</div><div class="line">        ReferenceCountGC objB =<span class="built_in"> new </span>ReferenceCountGC();</div><div class="line"></div><div class="line">        objA.instance = objB;</div><div class="line">        objB.instance = objA;</div><div class="line"></div><div class="line">        objA = null;</div><div class="line">        objB = null;</div><div class="line">        </div><div class="line">        System.gc();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>　　对象objA和对象objB都有字段instance，赋值令objA.instance = objB及objB.instance = objA，除此之外，没有任何对象引用， 实际上这2个对象不可能再被访问，但由于他们之间相互引用，导致他们的计数器都不为0，也就无法通知GC回收器回收它们。<br>　　实际上主流的java虚拟机都不是采用引用计数算法来判断对象是否“存活”，而是采用可达性分析算法。<br>　　<br>　　<strong>2.可达性分析算法</strong><br>　　这个算法的基本思路是通过一系列称为“GC Roots”的对象作为起点，从这些对象开始向下搜索，搜索所走过的路径称为“引用链”，当一个对象到GC Roots没有任何引用链相连（如图，就是GC Roots到这个对象不可达），则说明此对象不可用，是需要被回收的。图中object5、Object6、object7虽然互相有关联，但由于他们到GC Rooots是不可达的，所以他们将会被判定为可回收对象。<br>    <img src="http://img.blog.csdn.net/20170812173732277?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>　　在java中，可作为GC Roots的对象包括：</p>
+<blockquote>
+<ul>
+<li>1.虚拟机栈（栈帧中的局部变量表）中引用的对象</li>
+<li>2.方法区中类静态属性引用的变量</li>
+<li>3.方法区中常量引用的变量</li>
+<li>4.本地方法栈中JNI（Native方法）引用的对象</li>
+</ul>
+</blockquote>
+<h4 id="1-2-1-方法区的回收判断"><a href="#1-2-1-方法区的回收判断" class="headerlink" title="1.2.1 方法区的回收判断"></a>1.2.1 方法区的回收判断</h4><p>　　前面一章讲过，在hotspot虚拟机中，由于hotspot虚拟机团队将GC分代回收扩展至方法区，垃圾回收器能够像管理堆内存一样管理方法区。尽管虚拟机规范中没有要求说在方法区实现垃圾回收，但对于常用的hotspot虚拟机，所以还是值得一提。在方法区进行GC回收，效率一般较低：对于堆中的新生代，常规一次垃圾回收一般可以回收70 ~ 95的空间，而方法区中的回收效率远低于此。<br>　　方法区中的垃圾回收主要回收2部分内容：废弃的常量和无用的类。回收常量和回收堆中的对象非常类似，以常量池中的字面量字符串为例，假如字符串“abc”进入常量池，但当前系统没有任何一个String对象引用，当发生GC回收时，必要情况会将“abc”这个字符串常量移除常量池。常量池中的其他类（接口）、方法、字段的引用也是类似。<br>　　判断一个常量是否回收还比较简单，但是判断是否是无用的类，条件则相对苛刻许多。一个类被认为是无用的类需要满足一下3个条件：</p>
+<blockquote>
+<ul>
+<li>该类的所有实例都被回收，也就是堆中没有该类的任何实例。</li>
+<li>加载该类的classLoader被回收。</li>
+<li>该类的对应的java.lang.Class对象没有被任何地方引用，无法在任何地方通过反射访问该类的方法。</li>
+</ul>
+</blockquote>
+<p>　　对于满足这3个条件，虚拟机才有条件可以对无用的类进行回收。但并不是满足了条件就一定会发生回收，是否对类发生回收，还要看虚拟机参数设置，HotSpot提供了-Xnoclassgc进行控制。还可以通过-verbose:class以及-XX:+TraceClassLoading、-XX:+TraceClassUnLoading查看类加载和卸载的信息。<br>　　对于大量使用反射、动态代理、CGLib等字节码框架、动态生成jsp以及OSGi这类频繁使用自定义ClassLoader b 的场景，都需要虚拟机具备卸载类的功能，以防止方法区不会发生内存溢出。
+　　</p>
+<h3 id="1-3-如何回收"><a href="#1-3-如何回收" class="headerlink" title="1.3 如何回收"></a>1.3 如何回收</h3><p>　　上面谈到哪些区域需要回收及什么时候回收后，接下来就是如何回收垃圾。由于垃圾回收算法的实现涉及到大量的程序细节，各个虚拟机操作内存的方法也不一样，因此只是谈谈垃圾回收算法的思想及其发展过程。
+　　</p>
+<h4 id="1-3-1-标记-清除算法"><a href="#1-3-1-标记-清除算法" class="headerlink" title="1.3.1 标记-清除算法"></a>1.3.1 标记-清除算法</h4><p>　　标记-清除算法是最基础的方法，就字面意思，它包含2部分：标记和清除两个阶段。首先需要标记出需要回收的对象，这个过程是上面说的可达性分析算法，标记后统一进行回收标记的变量。之所以说他是最基础的算法，是因为后续的回收算法都是基于它的不足进行改进得到的。它主要有2个不足：<br>　　1. 效率问题　　标记和清除这2部分效率都不告<br>　　2. 内存碎片问题　　标记清除后会有大量的不连续的内存碎片，当内存碎片太多导致程序运行期间需要分配较大内存，无法找到足够的连续内存而不得不提前又一次触发垃圾回收动作。
+　　</p>
+<h4 id="1-3-2-复制算法"><a href="#1-3-2-复制算法" class="headerlink" title="1.3.2 复制算法"></a>1.3.2 复制算法</h4><p>　　为了解决标记-清除算法带来的效率问题，于是“复制”算法就出现了。复制算法的思想是将内存分为2份相等大小的区域，每次都只使用其中1块内存，当这一块内存使用完了，就将还存活的对象复制到另一块去，然后将已使用的内存空间一次都清理掉（如图）。这样每次都对半个内存空间进行清理操作，就不用考虑内存碎片问题了，只要移动堆顶指针，按顺序分配内存即可。这种方式实现简单，运行高效。只是这种算法每次都只能使用1半的内存大小，代价也太高了些。下面介绍的分代算法中，新生代的垃圾回收就是采用这种方式。<br><img src="http://img.blog.csdn.net/20170814180326308?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="复制算法示意图"></p>
+<h4 id="1-3-3-分代收集算法"><a href="#1-3-3-分代收集算法" class="headerlink" title="1.3.3 分代收集算法"></a>1.3.3 分代收集算法</h4><p>　　现代虚拟机进行垃圾回收都是采用分代收集，算法思想是将对象的存活周期不同将内存区域分为几块，一般将java堆分为“新生代”和“年老代”，根据各个年代的特点采用不同的收集算法。其中新生代又可以分为一块较大的Eden区域及2块Survivor区域（From Survivor、To Survivor），他们的比例是8:1:1，当然这个比例可以通过vm参数进行调节。新生代和年老代的共同组成堆内存，比例是1:2，这个比例也是可以调的。<br>　　<br>1.新生代：<br>　　在新生代中，对象大都分配在Eden和From Survivor区域，少数情况也可能直接分配到年老代。 由于对象“朝生夕死”的特性，通常采用复制算法进行回收。java虚拟机每次使用新生代中的Eden区和From Survivor区域，经过一次minor GC后，将Eden和From Survivor区域还存活的对象复制到To Suvivor区域，然后清理掉Eden和From Survivor区域空间。当然这期间，我们不能每次都保证只有不多于10%的对象存活，当To Survivor区域空间不够用时，需要依赖老年代进行分配担保。当经过Minor GC后，将此时存活在To Survivor区域的年龄设置为1，没当熬过1次Minor GC，它们的年龄就加1，当年龄达到15（默认值，可以通过vm 参数进行设置），就将他们移动到年老代。<br>　　总结：<br>　　1.minor GC发生在新生代，采用的是复制算法。<br>　　2.新生代中每次可使用的内存为90%，用来存放新生的对象、<br>　　3.minor GC后，Eden和From Survivor区域空间会被清空。<br>2.年老代<br>　　年老代中存放的都是生命周期长的对象（包括从Survivor区域熬过来的），对于一些较大的对象（需要连续的较大空间），是直接存在年老代的。<br>　　年老代中使用的是Full GC，Full GC采用标记-整理算法。年老代中对象存活率搞，Full GC不像Minor GC那么频繁，并且进行一次Full GC的时间远大于Minor GC。关于Minor GC，Major GC、Full GC的区别：<a href="https://www.zhihu.com/question/41922036/answer/93079526" target="_blank" rel="external">Minor GC、Major GC、Full GC区别</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/08/31/java内存模型（JMM）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java内存模型(JMM)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Jvm垃圾回收及内存分配策略" data-title="Jvm垃圾回收及内存分配策略" data-url="https://tangfeng1012.github.io/2016/09/12/Jvm垃圾回收及内存分配策略/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"tangfengduoshuo"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 tangfeng
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/http _7.url.cn_edu_jslib_comb_require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="/js/MathJax.js"></script>
+
+  </div>
+</body>
+</html>
