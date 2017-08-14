@@ -6,8 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>Jvm垃圾回收及内存分配策略 | tangfeng的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="###1.垃圾回收
-　　说到垃圾回收（GC），我们需要考虑3件事情：
+  <meta name="description" content="1.垃圾回收　　说到垃圾回收（GC），我们需要考虑3件事情：
 
 
 哪些内存需要回收
@@ -15,13 +14,12 @@
 如何回收。
 
 
-####1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译">
+1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译器优化，但大体上">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Jvm垃圾回收及内存分配策略">
 <meta property="og:url" content="https://tangfeng1012.github.io/2016/09/12/Jvm垃圾回收及内存分配策略/index.html">
 <meta property="og:site_name" content="tangfeng的博客">
-<meta property="og:description" content="###1.垃圾回收
-　　说到垃圾回收（GC），我们需要考虑3件事情：
+<meta property="og:description" content="1.垃圾回收　　说到垃圾回收（GC），我们需要考虑3件事情：
 
 
 哪些内存需要回收
@@ -29,14 +27,13 @@
 如何回收。
 
 
-####1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译">
+1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译器优化，但大体上">
 <meta property="og:image" content="http://img.blog.csdn.net/20170812173732277?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170814180326308?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2017-08-14T11:10:17.820Z">
+<meta property="og:updated_time" content="2017-08-14T11:13:54.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jvm垃圾回收及内存分配策略">
-<meta name="twitter:description" content="###1.垃圾回收
-　　说到垃圾回收（GC），我们需要考虑3件事情：
+<meta name="twitter:description" content="1.垃圾回收　　说到垃圾回收（GC），我们需要考虑3件事情：
 
 
 哪些内存需要回收
@@ -44,7 +41,7 @@
 如何回收。
 
 
-####1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译">
+1.1 哪些内存需要回收　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译器优化，但大体上">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20170812173732277?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
   
     <link rel="alternative" href="/atom.xml" title="tangfeng的博客" type="application/atom+xml">
@@ -151,7 +148,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Apache-Commons/" style="font-size: 10px;">Apache-Commons</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JMM/" style="font-size: 15px;">JMM</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
+						<a href="/tags/Apache-Commons/" style="font-size: 10px;">Apache-Commons</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JMM/" style="font-size: 10px;">JMM</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
 					</div>
 				</section>
 				
@@ -265,7 +262,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JMM/">JMM</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
 	</div>
 
         
@@ -281,8 +278,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>###1.垃圾回收</p>
-<p>　　说到垃圾回收（GC），我们需要考虑3件事情：</p>
+<h3 id="1-垃圾回收"><a href="#1-垃圾回收" class="headerlink" title="1.垃圾回收"></a>1.垃圾回收</h3><p>　　说到垃圾回收（GC），我们需要考虑3件事情：</p>
 <blockquote>
 <ul>
 <li>哪些内存需要回收</li>
@@ -290,10 +286,10 @@
 <li>如何回收。</li>
 </ul>
 </blockquote>
-<p>####1.1 哪些内存需要回收<br>　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译器优化，但大体上可以认为是在编译期可知的）。由于这几个区域内存的分配和回收都是具有确定性，所以这几个区域就不用过多考虑垃圾回收的问题。因为随着方法或者线程的结束，内存自然就跟着回收了。而java堆和方法区是所有线程共享的，一个接口的多个实现类需要的内存可能不一样，一个方法中多个分支需要的内存也不一样，只有在运行期才知道要创建哪些对象，这部分创建的对象和回收都是动态的，垃圾回收关注的就是这块区域。</p>
+<h4 id="1-1-哪些内存需要回收"><a href="#1-1-哪些内存需要回收" class="headerlink" title="1.1 哪些内存需要回收"></a>1.1 哪些内存需要回收</h4><p>　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译器优化，但大体上可以认为是在编译期可知的）。由于这几个区域内存的分配和回收都是具有确定性，所以这几个区域就不用过多考虑垃圾回收的问题。因为随着方法或者线程的结束，内存自然就跟着回收了。而java堆和方法区是所有线程共享的，一个接口的多个实现类需要的内存可能不一样，一个方法中多个分支需要的内存也不一样，只有在运行期才知道要创建哪些对象，这部分创建的对象和回收都是动态的，垃圾回收关注的就是这块区域。</p>
 <a id="more"></a>
 <p>　　</p>
-<p>####1.2 什么时候回收<br>　　在堆内存里面存放的是所以的java实例，包括一级对象数组。在对堆内存进行垃圾回收之前，得判断哪些对象还“存活”着，哪些对象已经“死去”（即在程序中没有任何地方引用到）。<br>　　<br>　　<strong>1.引用计数算法</strong><br>　　给对象添加一个引用计数器，每当有地方引用到该对象时，就对对象的引用计数器进行加1操作。当引用失效时，计数器值减1。当计数器的值为0时，说明没有任何地方引用到该对象，就可以进行回收。引用技术算法，大部分情况来说，是个不错的算法，实现简单，效率高。但是无法解决对象之间的循环引用，比如：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class ReferenceCountGC &#123;</div><div class="line"></div><div class="line">   <span class="keyword"> public</span> Object<span class="built_in"> instance </span>= null;</div><div class="line"></div><div class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> void testGC() &#123;</div><div class="line">        ReferenceCountGC objA =<span class="built_in"> new </span>ReferenceCountGC();</div><div class="line">        ReferenceCountGC objB =<span class="built_in"> new </span>ReferenceCountGC();</div><div class="line"></div><div class="line">        objA.instance = objB;</div><div class="line">        objB.instance = objA;</div><div class="line"></div><div class="line">        objA = null;</div><div class="line">        objB = null;</div><div class="line">        </div><div class="line">        System.gc();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="1-2-什么时候回收"><a href="#1-2-什么时候回收" class="headerlink" title="1.2 什么时候回收"></a>1.2 什么时候回收</h4><p>　　在堆内存里面存放的是所以的java实例，包括一级对象数组。在对堆内存进行垃圾回收之前，得判断哪些对象还“存活”着，哪些对象已经“死去”（即在程序中没有任何地方引用到）。<br>　　<br>　　<strong>1.引用计数算法</strong><br>　　给对象添加一个引用计数器，每当有地方引用到该对象时，就对对象的引用计数器进行加1操作。当引用失效时，计数器值减1。当计数器的值为0时，说明没有任何地方引用到该对象，就可以进行回收。引用技术算法，大部分情况来说，是个不错的算法，实现简单，效率高。但是无法解决对象之间的循环引用，比如：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class ReferenceCountGC &#123;</div><div class="line"></div><div class="line">   <span class="keyword"> public</span> Object<span class="built_in"> instance </span>= null;</div><div class="line"></div><div class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> void testGC() &#123;</div><div class="line">        ReferenceCountGC objA =<span class="built_in"> new </span>ReferenceCountGC();</div><div class="line">        ReferenceCountGC objB =<span class="built_in"> new </span>ReferenceCountGC();</div><div class="line"></div><div class="line">        objA.instance = objB;</div><div class="line">        objB.instance = objA;</div><div class="line"></div><div class="line">        objA = null;</div><div class="line">        objB = null;</div><div class="line">        </div><div class="line">        System.gc();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>　　对象objA和对象objB都有字段instance，赋值令objA.instance = objB及objB.instance = objA，除此之外，没有任何对象引用， 实际上这2个对象不可能再被访问，但由于他们之间相互引用，导致他们的计数器都不为0，也就无法通知GC回收器回收它们。<br>　　实际上主流的java虚拟机都不是采用引用计数算法来判断对象是否“存活”，而是采用可达性分析算法。<br>　　<br>　　<strong>2.可达性分析算法</strong><br>　　这个算法的基本思路是通过一系列称为“GC Roots”的对象作为起点，从这些对象开始向下搜索，搜索所走过的路径称为“引用链”，当一个对象到GC Roots没有任何引用链相连（如图，就是GC Roots到这个对象不可达），则说明此对象不可用，是需要被回收的。图中object5、Object6、object7虽然互相有关联，但由于他们到GC Rooots是不可达的，所以他们将会被判定为可回收对象。<br>    <img src="http://img.blog.csdn.net/20170812173732277?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTA3OTI3NA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>　　在java中，可作为GC Roots的对象包括：</p>
 <blockquote>
 <ul>

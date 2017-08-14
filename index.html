@@ -117,7 +117,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Apache-Commons/" style="font-size: 10px;">Apache-Commons</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JMM/" style="font-size: 15px;">JMM</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
+						<a href="/tags/Apache-Commons/" style="font-size: 10px;">Apache-Commons</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JMM/" style="font-size: 10px;">JMM</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TOMCAT/" style="font-size: 10px;">TOMCAT</a> <a href="/tags/文件上传/" style="font-size: 10px;">文件上传</a>
 					</div>
 				</section>
 				
@@ -234,8 +234,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>###1.垃圾回收</p>
-<p>　　说到垃圾回收（GC），我们需要考虑3件事情：</p>
+<h3 id="1-垃圾回收"><a href="#1-垃圾回收" class="headerlink" title="1.垃圾回收"></a>1.垃圾回收</h3><p>　　说到垃圾回收（GC），我们需要考虑3件事情：</p>
 <blockquote>
 <ul>
 <li>哪些内存需要回收</li>
@@ -243,7 +242,7 @@
 <li>如何回收。</li>
 </ul>
 </blockquote>
-<p>####1.1 哪些内存需要回收<br>　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译器优化，但大体上可以认为是在编译期可知的）。由于这几个区域内存的分配和回收都是具有确定性，所以这几个区域就不用过多考虑垃圾回收的问题。因为随着方法或者线程的结束，内存自然就跟着回收了。而java堆和方法区是所有线程共享的，一个接口的多个实现类需要的内存可能不一样，一个方法中多个分支需要的内存也不一样，只有在运行期才知道要创建哪些对象，这部分创建的对象和回收都是动态的，垃圾回收关注的就是这块区域。</p>
+<h4 id="1-1-哪些内存需要回收"><a href="#1-1-哪些内存需要回收" class="headerlink" title="1.1 哪些内存需要回收"></a>1.1 哪些内存需要回收</h4><p>　　上面一片文章中说到，程序计数器，虚拟机栈，本地方法栈这3个区域随着线程的创建而生，随着线程的销毁而灭。栈中的栈帧随着方法的进入和退出而有条不紊的进行入栈和出栈操作，每一个栈帧中分配多少内存是在类结构确定下来就已知的（尽管运行期会由JIT编译器优化，但大体上可以认为是在编译期可知的）。由于这几个区域内存的分配和回收都是具有确定性，所以这几个区域就不用过多考虑垃圾回收的问题。因为随着方法或者线程的结束，内存自然就跟着回收了。而java堆和方法区是所有线程共享的，一个接口的多个实现类需要的内存可能不一样，一个方法中多个分支需要的内存也不一样，只有在运行期才知道要创建哪些对象，这部分创建的对象和回收都是动态的，垃圾回收关注的就是这块区域。</p>
       
     </div>
     
@@ -251,7 +250,7 @@
       
       
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JMM/">JMM</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
 	</div>
 
       
